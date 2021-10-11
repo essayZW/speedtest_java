@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/data_history")
 public class SpeedHistoryController {
 
-    @RequestMapping("/")
+    @RequestMapping({"/", ""})
     public List<HistoryInfoDO> history() {
         return null;
     }
