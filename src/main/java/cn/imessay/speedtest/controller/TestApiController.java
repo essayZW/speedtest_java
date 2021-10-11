@@ -2,9 +2,14 @@ package cn.imessay.speedtest.controller;
 
 import cn.imessay.speedtest.annoation.AllowCors;
 import cn.imessay.speedtest.annoation.NoCache;
+import cn.imessay.speedtest.dto.IpInfoDTO;
+import cn.imessay.speedtest.response.BaseResponseBody;
+import cn.imessay.speedtest.service.IpService;
+import cn.imessay.speedtest.util.HttpRequestIP;
 import cn.imessay.speedtest.util.RandomString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +27,10 @@ import java.io.OutputStream;
 @RequestMapping("/speed/api")
 public class TestApiController {
     private final Logger logger = LoggerFactory.getLogger(TestApiController.class);
+
+
+    @Autowired
+    private IpService ipService;
 
     /**
      * 该接口用于测试下载速度
@@ -89,8 +98,10 @@ public class TestApiController {
     @ResponseBody
     @NoCache
     @AllowCors
-    public void getIp() {
-
+    public BaseResponseBody getIp(HttpServletRequest request) {
+        String ip = HttpRequestIP.get(request);
+        IpInfoDTO ipInfoDTO = ipService.getInfo(ip);
+        return BaseResponseBody.ok(ipInfoDTO);
     }
 
 
