@@ -52,8 +52,9 @@ public class TestApiController {
         }
         OutputStream stream;
         stream = response.getOutputStream();
+        byte[] bytes = RandomString.generateByte(1048576);
         while ((ckSize--) > 0) {
-            stream.write(RandomString.generateByte(1048576));
+            stream.write(bytes);
         }
         stream.flush();
         stream.close();

@@ -36,10 +36,8 @@ public class RequestLog {
     @After("writeLog()")
     public void after() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
-        logger.info("[{}] {} {} {} {} requestSize:{} start:{} end:{} process:{}ms",
-                format.format(date),
+        logger.info("{}||{}||{}||{}||requestSize:{} start:{} end:{} process:{}ms",
                 HttpRequestIP.get(request),
                 request.getMethod(),
                 request.getRequestURI(),
