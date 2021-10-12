@@ -2,9 +2,9 @@ package cn.imessay.speedtest.controller;
 
 import cn.imessay.speedtest.annoation.AllowCors;
 import cn.imessay.speedtest.annoation.NoCache;
-import cn.imessay.speedtest.dto.IpInfoDTO;
+import cn.imessay.speedtest.pojo.dto.IpInfoDTO;
 import cn.imessay.speedtest.response.BaseResponseBody;
-import cn.imessay.speedtest.service.IpService;
+import cn.imessay.speedtest.service.ip.IpService;
 import cn.imessay.speedtest.util.HttpRequestIP;
 import cn.imessay.speedtest.util.RandomString;
 import org.slf4j.Logger;

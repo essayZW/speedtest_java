@@ -1,4 +1,4 @@
-package cn.imessay.speedtest.dto;
+package cn.imessay.speedtest.pojo.dto;
 
 public class IpInfoDTO {
 
