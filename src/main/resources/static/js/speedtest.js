@@ -157,7 +157,16 @@ Speedtest.prototype = {
     xhr.onload = function(){
       try{
         var servers=JSON.parse(xhr.responseText);
+        if (!servers.status) {
+          result(null);
+          return;
+        }
+        servers = servers.data;
         for(var i=0;i<servers.length;i++){
+          servers[i].dlURL = '/speed/api/download';
+          servers[i].ulURL = '/speed/api/empty';
+          servers[i].pingURL = '/speed/api/empty';
+          servers[i].getIpURL = '/speed/api/ip';
           this._checkServerDefinition(servers[i]);
         }
         this.addTestPoints(servers);
