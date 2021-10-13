@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.imessay.speedtest.mapper.CidrMapper">
+    <select id="query" resultType="cn.imessay.speedtest.dao.cidr.CidrDO">
+        SELECT * FROM speedtest_cidr
+        <if test="id != -1">
+            WHERE id = #{id}
+        </if>
+        <if test="order">
+            ORDER BY `index`
+        </if>
+        <if test="offset != -1">
+            LIMIT #{offset}, #{pageSize}
+        </if>
+    </select>
+</mapper>
