@@ -10,7 +10,7 @@ import lombok.ToString;
 public class TestPointDO {
     private int id;
     private String name;
-    private String host;
+    private String server;
     private short port;
     private short status;
 }
