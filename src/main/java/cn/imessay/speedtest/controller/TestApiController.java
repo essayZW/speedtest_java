@@ -12,19 +12,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.PrintWriter;
 
 /**
  * 该控制器类主要提供测速相关的接口
  */
 @Controller
-@RequestMapping("/speed/api")
+@RequestMapping(value = "/speed/api", method = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST})
 public class TestApiController {
     private final Logger logger = LoggerFactory.getLogger(TestApiController.class);
 
@@ -50,14 +51,11 @@ public class TestApiController {
         if (ckSize > maxCkSize) {
             ckSize = maxCkSize;
         }
-        OutputStream stream;
-        stream = response.getOutputStream();
-        byte[] bytes = RandomString.generateByte(1048576);
+        PrintWriter printWriter = response.getWriter();
+        String str = RandomString.generate(1048576);
         while ((ckSize--) > 0) {
-            stream.write(bytes);
+            printWriter.write(str);
         }
-        stream.flush();
-        stream.close();
     }
 
 
@@ -99,7 +97,7 @@ public class TestApiController {
     @ResponseBody
     @NoCache
     @AllowCors
-    public BaseResponseBody getIp(HttpServletRequest request) {
+    public BaseResponseBody<IpInfoDTO> getIp(HttpServletRequest request) {
         String ip = HttpRequestIP.get(request);
         IpInfoDTO ipInfoDTO = ipService.getInfo(ip);
         return BaseResponseBody.ok(ipInfoDTO);
