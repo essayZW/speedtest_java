@@ -12,11 +12,19 @@ public class CidrDAO {
     @Autowired
     private CidrMapper cidrMapper;
 
-    public List<CidrDO> selectAll(boolean order) {
-        return cidrMapper.select(-1, -1, -1, order);
+    public List<CidrDO> queryAll(boolean order) {
+        return cidrMapper.query(-1, -1, -1, order);
     }
 
-    public List<CidrDO> pageSelect(int offset, int size, boolean order) {
-        return cidrMapper.select(-1, offset, size, order);
+    public List<CidrDO> pageQuery(int offset, int size, boolean order) {
+        return cidrMapper.query(-1, offset, size, order);
+    }
+
+    public CidrDO query(int id) {
+        List<CidrDO> cidrDOList = cidrMapper.query(id, -1, -1, false);
+        if (cidrDOList.size() == 0) {
+            return null;
+        }
+        return cidrDOList.get(0);
     }
 }

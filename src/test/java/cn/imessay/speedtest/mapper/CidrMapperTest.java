@@ -17,7 +17,7 @@ class CidrMapperTest {
 
     @Test
     void select() {
-        List<CidrDO> cidrDOList = cidrMapper.select(-1, 0, 3, true);
+        List<CidrDO> cidrDOList = cidrMapper.query(-1, 0, 3, true);
         for (CidrDO cidrDO : cidrDOList) {
             System.out.println(cidrDO.getCidr());
         }

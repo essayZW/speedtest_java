@@ -7,5 +7,5 @@ import java.util.List;
 
 @Mapper
 public interface CidrMapper {
-    List<CidrDO> select(int id, int offset, int pageSize, boolean order);
+    List<CidrDO> query(int id, int offset, int pageSize, boolean order);
 }
