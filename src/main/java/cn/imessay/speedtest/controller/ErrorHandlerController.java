@@ -36,7 +36,7 @@ public class ErrorHandlerController implements ErrorController {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String exceptionPage(Exception e, HttpServletRequest request) {
-        logger.debug("Exception:{}||{}||{}", e.getMessage(), e.getClass().getName(), request.getRequestURI());
+        logger.warn("Exception:{}||{}||{}", e.getMessage(), e.getClass().getName(), request.getRequestURI());
         return "500";
     }
 

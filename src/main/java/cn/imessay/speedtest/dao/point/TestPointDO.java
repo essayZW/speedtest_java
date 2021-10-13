@@ -1,5 +1,6 @@
 package cn.imessay.speedtest.dao.point;
 
+import cn.imessay.speedtest.mybatis.type.AddressType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,4 +14,5 @@ public class TestPointDO {
     private String server;
     private short port;
     private short status;
+    private AddressType type;
 }
