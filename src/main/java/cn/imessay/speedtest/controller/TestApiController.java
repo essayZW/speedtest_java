@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -24,7 +25,7 @@ import java.io.PrintWriter;
  * 该控制器类主要提供测速相关的接口
  */
 @Controller
-@RequestMapping("/speed/api")
+@RequestMapping(value = "/speed/api", method = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST})
 public class TestApiController {
     private final Logger logger = LoggerFactory.getLogger(TestApiController.class);
 
