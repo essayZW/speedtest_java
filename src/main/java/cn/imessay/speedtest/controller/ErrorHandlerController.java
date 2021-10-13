@@ -20,10 +20,10 @@ public class ErrorHandlerController implements ErrorController {
 
     @RequestMapping(value = "/error", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public BaseResponseBody errorJson() {
+    public BaseResponseBody<ApiResponseHandler.ExceptionData> errorJson() {
         ApiResponseHandler.ExceptionData exceptionData =  new ApiResponseHandler.ExceptionData();
         exceptionData.setMessage("404 not found");
-        BaseResponseBody response = BaseResponseBody.error(exceptionData);
+        BaseResponseBody<ApiResponseHandler.ExceptionData> response = BaseResponseBody.error(exceptionData);
         response.setCode(404);
         return response;
     }
