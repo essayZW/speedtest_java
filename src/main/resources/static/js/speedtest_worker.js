@@ -719,13 +719,6 @@ function sendTelemetry(done) {
     done(null);
   };
   xhr.open("POST", settings.url_telemetry + url_sep(settings.url_telemetry) + (settings.mpot ? "cors=true&" : "") + "r=" + Math.random(), true);
-  var telemetryIspInfo = {
-    ip: clientIp,
-    isp: isp,
-    position: ipPosition,
-    accessMethod: ipAccessMethod,
-    rawIspInfo: typeof ispInfo === "object" ? ispInfo : ""
-  };
   try {
     var fd = new FormData();
     // fd.append("ispinfo", JSON.stringify(telemetryIspInfo));
@@ -735,8 +728,12 @@ function sendTelemetry(done) {
     fd.append("ping", pingStatus);
     fd.append("jitter", jitterStatus);
     fd.append("ua", navigator.userAgent);
-    fd.append("testPointId", testId);
-    fd.append("extraAttribute", settings.telemetry_extra);
+    fd.append("testPointId", settings.server_id);
+    fd.append("extraAttribute", JSON.stringify({
+      'isp': isp,
+      'position': ipPosition,
+      'accessMethod': ipAccessMethod
+    }));
     xhr.send(fd);
   } catch (ex) {
   }
