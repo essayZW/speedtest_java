@@ -34,7 +34,7 @@ public class ApiResponseHandler {
         }
         catch (Throwable e) {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            logger.debug("ApiException:{}||{}||{}", e.getMessage(), e.getClass().getName(), request.getRequestURI());
+            logger.warn("ApiException:{}||{}||{}", e.getMessage(), e.getClass().getName(), request.getRequestURI());
             ExceptionData exceptionData = new ExceptionData();
             exceptionData.setMessage(e.getMessage());
             responseData = BaseResponseBody.error(exceptionData);

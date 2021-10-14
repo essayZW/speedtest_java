@@ -1,10 +1,11 @@
 package cn.imessay.speedtest.service.ip;
 
+import cn.imessay.speedtest.config.GlobalConfig;
 import cn.imessay.speedtest.dao.cidr.CidrDO;
+import cn.imessay.mybatis.type.AddressType;
 import cn.imessay.speedtest.pojo.dto.IpInfoDTO;
 import cn.imessay.speedtest.service.cidr.CidrService;
 import com.alibaba.fastjson.JSONObject;
-import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -28,6 +29,7 @@ public class IpService {
         CidrDO cidrDO = cidrService.getFirstMatched(ip);
         IpInfoDTO ipInfoDTO = new IpInfoDTO();
         ipInfoDTO.setIp(ip);
+        ipInfoDTO.setType(getType(ip));
         if (cidrDO == null) {
             try {
                 return queryIpInfo(ip);
@@ -43,9 +45,19 @@ public class IpService {
         return ipInfoDTO;
     }
 
+    public AddressType getType(String ip) {
+        // IPv6地址中一定有 : 符号
+        if (ip.indexOf(":", 0) != -1) {
+            return AddressType.IPv6;
+        }
+        else {
+            return AddressType.IPv4;
+        }
+    }
+
     private IpInfoDTO queryIpInfo(String ip) throws InterruptedException {
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url("http://ip-api.com/json/" + ip).build();
+        Request request = new Request.Builder().url(GlobalConfig.IP_API_ADDRESS + ip).build();
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
         JSONObject responseJson = new JSONObject();
@@ -55,7 +67,7 @@ public class IpService {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                logger.debug("Ip Api Query Fail||{}||{}||{}", ip, e.getMessage(), e.getClass().getName());
+                logger.warn("Ip Api Query Fail||{}||{}||{}", ip, e.getMessage(), e.getClass().getName());
                 countDownLatch.countDown();
             }
 
@@ -64,7 +76,7 @@ public class IpService {
                 JSONObject res = JSONObject.parseObject(response.body().string());
                 // 检测是否查询失败
                 if (Objects.equals("fail", res.getString("status"))) {
-                    logger.debug("Ip Api Query Fail||{}||{}", ip, response.body().string());
+                    logger.warn("Ip Api Query Fail||{}||{}", ip, response.body().string());
                     countDownLatch.countDown();
                     return;
                 }
@@ -85,7 +97,7 @@ public class IpService {
                 countDownLatch.countDown();
             }
         });
-        countDownLatch.await(3, TimeUnit.SECONDS);
+        countDownLatch.await(GlobalConfig.MAX_IP_API_AWAIT_TIME, TimeUnit.SECONDS);
 
         IpInfoDTO ipInfoDTO = new IpInfoDTO();
         ipInfoDTO.setIp(ip);

@@ -8,9 +8,15 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindException;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @ControllerAdvice
 @Controller
@@ -35,9 +41,17 @@ public class ErrorHandlerController implements ErrorController {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String exceptionPage(Exception e, HttpServletRequest request) {
-        logger.debug("Exception:{}||{}||{}", e.getMessage(), e.getClass().getName(), request.getRequestURI());
-        return "500";
+    @ResponseBody
+    public BaseResponseBody<Map<String, String>> exceptionPage(Exception e, HttpServletRequest request) throws Exception {
+        logger.warn("Exception:{}||{}||{}", e.getMessage(), e.getClass().getName(), request.getRequestURI());
+        if (e instanceof BindException) {
+            BindException me = (BindException) e;
+            List<ObjectError> errorList = me.getBindingResult().getAllErrors();
+            Map<String, String> map = new HashMap<>();
+            map.put("message", errorList.get(0).getDefaultMessage());
+            map.put("error_count", String.valueOf(me.getErrorCount()));
+            return BaseResponseBody.error(map);
+        }
+        throw e;
     }
-
 }

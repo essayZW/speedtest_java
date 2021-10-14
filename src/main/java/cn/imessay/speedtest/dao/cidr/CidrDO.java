@@ -7,10 +7,10 @@ import lombok.Setter;
 @Getter
 public class CidrDO {
 
-    private int id;
+    private Integer id;
     private String cidr;
     private String position;
     private String accessMethod;
     private String isp;
-    private int index;
+    private Integer index;
 }

@@ -134,38 +134,19 @@ function initUI() {
   I("ipAndIsp").textContent = "";
   I("ipPositionAndAccessMethod").textContent = "";
 }
-// 加载测速节点列表
-axios.get('/api/testpoint').then((rep) => {
-  let serverLists = rep.data.data;
-  if (serverLists == undefined || serverLists.length == 0) {
-    // default test point
-    serverLists = [{
-      'id': null,
-      'name': window.defaultServerInfo.name,
-      'server': window.location.protocol + '//' + window.location.hostname,
-      'port': window.location.port,
-      'dlURL': '/speed/api/download',
-      'ulURL': '/speed/api/empty',
-      'pingURL': '/speed/api/empty',
-      'getIpURL': '/speed/api/ip'
-    }];
+
+s.loadServerList("/api/testpoint", (servers) => {
+  if (servers == null) {
+    alert("测速节点列表加载失败");
+    return;
   }
-  else {
-    for (let i = 0; i < serverLists.length; i ++) {
-      serverLists[i].dlURL = '/speed/api/download';
-      serverLists[i].ulURL = '/speed/api/empty';
-      serverLists[i].pingURL = '/speed/api/empty';
-      serverLists[i].getIpURL = '/speed/api/ip';
-    }
-  }
-  s.addTestPoints(serverLists);
   // default no auto server select
-  s.setSelectedServer(serverLists[0]);
+  s.setSelectedServer(servers[0]);
   // update ui
   let serverListSelector = document.querySelector('#serverList');
-  for (let i = 0; i < serverLists.length; i++) {
+  for (let i = 0; i < servers.length; i++) {
     let option = document.createElement('option');
-    option.innerHTML = serverLists[i].name;
+    option.innerHTML = servers[i].name;
     option.value = i;
     serverListSelector.appendChild(option);
   }
@@ -177,7 +158,4 @@ axios.get('/api/testpoint').then((rep) => {
     index = parseInt(index);
     s.setSelectedServer(s._serverList[index]);
   });
-}).catch((error) => {
-  console.error(error);
-  alert('测速节点列表加载失败!');
 });
