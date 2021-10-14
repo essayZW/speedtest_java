@@ -11,4 +11,9 @@ public class GlobalConfig {
      * IP 地址信息查询API地址
      */
     public static String IP_API_ADDRESS = "http://ip-api.com/json/";
+
+    /**
+     * AOP切面中放入model中的用户信息
+     */
+    public static String MODEL_USER_KEY = "CURRENT_USER";
 }
