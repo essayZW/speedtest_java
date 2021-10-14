@@ -1,6 +1,6 @@
-package cn.imessay.speedtest.mybatis.type.handler;
+package cn.imessay.mybatis.type.handler;
 
-import cn.imessay.speedtest.mybatis.type.AddressType;
+import cn.imessay.mybatis.type.AddressType;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;

@@ -14,27 +14,18 @@ import javax.validation.constraints.NotNull;
 @ToString
 public class SpeedHistoryVO {
 
-    @NotNull(message = "ip不能为空")
-    @NotBlank(message = "ip不能为空")
     String ip;
 
-    @NotNull(message = "ua不能为空")
     String ua;
 
-    @NotNull(message = "下载速度不能为空")
-    @Min(value = 0)
     Float dl;
 
-    @NotNull(message = "上传速度不能为空")
     Float ul;
 
-    @NotNull(message = "ping值不能为空")
     Float ping;
 
-    @NotNull(message = "jitter值不能为空")
     Float jitter;
 
-    @NotNull(message = "测试节点ID不能为空")
     Integer testPointId;
 
     JSONObject extraAttribute;

@@ -67,7 +67,7 @@ var settings = {
   overheadCompensationFactor: 1.06, //can be changed to compensatie for transport overhead. (see doc.md for some other values)
   useMebibits: false, //if set to true, speed will be reported in mebibits/s instead of megabits/s
   telemetry_level: 0, // 0=disabled, 1=basic (results only), 2=full (results and timing) 3=debug (results+log)
-  url_telemetry: "/results/telemetry.php", // path to the script that adds telemetry data to the database
+  url_telemetry: "/api/history", // path to the script that adds telemetry data to the database
   telemetry_extra: "", //extra data that can be passed to the telemetry through the settings
   server_id: null, //selected server id, which will be used to send to api with speedtest result
 };
@@ -728,19 +728,16 @@ function sendTelemetry(done) {
   };
   try {
     var fd = new FormData();
-    fd.append("ispinfo", JSON.stringify(telemetryIspInfo));
+    // fd.append("ispinfo", JSON.stringify(telemetryIspInfo));
+    fd.append("ip", clientIp);
     fd.append("dl", dlStatus);
     fd.append("ul", ulStatus);
     fd.append("ping", pingStatus);
     fd.append("jitter", jitterStatus);
-    fd.append("log", settings.telemetry_level > 1 ? log : "");
-    fd.append("extra", settings.telemetry_extra);
-    if (settings.server_id != null)
-      fd.append('server', settings.server_id);
+    fd.append("ua", navigator.userAgent);
+    fd.append("testPointId", testId);
+    fd.append("extraAttribute", settings.telemetry_extra);
     xhr.send(fd);
   } catch (ex) {
-    var postData = "extra=" + encodeURIComponent(settings.telemetry_extra) + "&ispinfo=" + encodeURIComponent(JSON.stringify(telemetryIspInfo)) + "&dl=" + encodeURIComponent(dlStatus) + "&ul=" + encodeURIComponent(ulStatus) + "&ping=" + encodeURIComponent(pingStatus) + "&jitter=" + encodeURIComponent(jitterStatus) + "&log=" + encodeURIComponent(settings.telemetry_level > 1 ? log : "");
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send(postData);
   }
 }

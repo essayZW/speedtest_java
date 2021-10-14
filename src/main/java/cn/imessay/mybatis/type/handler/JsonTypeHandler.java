@@ -1,4 +1,4 @@
-package cn.imessay.speedtest.mybatis.type.handler;
+package cn.imessay.mybatis.type.handler;
 
 import com.alibaba.fastjson.JSONObject;
 import org.apache.ibatis.type.BaseTypeHandler;

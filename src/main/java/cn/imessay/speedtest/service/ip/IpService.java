@@ -2,11 +2,10 @@ package cn.imessay.speedtest.service.ip;
 
 import cn.imessay.speedtest.config.GlobalConfig;
 import cn.imessay.speedtest.dao.cidr.CidrDO;
-import cn.imessay.speedtest.mybatis.type.AddressType;
+import cn.imessay.mybatis.type.AddressType;
 import cn.imessay.speedtest.pojo.dto.IpInfoDTO;
 import cn.imessay.speedtest.service.cidr.CidrService;
 import com.alibaba.fastjson.JSONObject;
-import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;

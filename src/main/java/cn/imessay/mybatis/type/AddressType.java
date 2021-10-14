@@ -1,4 +1,4 @@
-package cn.imessay.speedtest.mybatis.type;
+package cn.imessay.mybatis.type;
 
 public enum AddressType {
     IPv4("IPv4"), IPv6("IPv6");

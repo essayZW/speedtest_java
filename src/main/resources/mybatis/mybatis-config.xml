@@ -7,7 +7,7 @@
         <typeAlias type="cn.imessay.speedtest.dao.history.SpeedHistoryDO" alias="SpeedHistoryDO" />
     </typeAliases>
     <typeHandlers>
-        <typeHandler handler="cn.imessay.speedtest.mybatis.type.handler.AddressTypeHandler" javaType="cn.imessay.speedtest.mybatis.type.AddressType"/>
-        <typeHandler handler="cn.imessay.speedtest.mybatis.type.handler.JsonTypeHandler" javaType="com.alibaba.fastjson.JSONObject" />
+        <typeHandler handler="cn.imessay.mybatis.type.handler.AddressTypeHandler" javaType="cn.imessay.mybatis.type.AddressType"/>
+        <typeHandler handler="cn.imessay.mybatis.type.handler.JsonTypeHandler" javaType="com.alibaba.fastjson.JSONObject" />
     </typeHandlers>
 </configuration>

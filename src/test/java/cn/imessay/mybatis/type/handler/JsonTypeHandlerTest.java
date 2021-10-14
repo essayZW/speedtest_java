@@ -1,9 +1,7 @@
-package cn.imessay.speedtest.mybatis.type.handler;
+package cn.imessay.mybatis.type.handler;
 
 import com.alibaba.fastjson.JSONObject;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class JsonTypeHandlerTest {
 
