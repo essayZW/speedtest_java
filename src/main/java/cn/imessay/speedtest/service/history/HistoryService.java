@@ -5,6 +5,7 @@ import cn.imessay.speedtest.dao.history.SpeedHistoryDO;
 import cn.imessay.speedtest.exception.UserNotFoundException;
 import cn.imessay.speedtest.pojo.vo.SpeedHistoryVO;
 import cn.imessay.speedtest.pojo.dto.UserDTO;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,7 @@ public class HistoryService {
         speedHistoryDO.setPing(historyVO.getPing());
         speedHistoryDO.setJitter(historyVO.getJitter());
         speedHistoryDO.setTestPointId(historyVO.getTestPointId());
-        speedHistoryDO.setExtraAttribute(historyVO.getExtraAttribute());
+        speedHistoryDO.setExtraAttribute(JSONObject.parseObject(historyVO.getExtraAttribute()));
         return speedHistoryDAO.insert(speedHistoryDO, userDTO);
     }
 }

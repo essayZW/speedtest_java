@@ -29,7 +29,7 @@ class HistoryServiceTest {
         speedHistoryVO.setPing(random.nextFloat());
         speedHistoryVO.setJitter(random.nextFloat());
         speedHistoryVO.setTestPointId(1);
-        speedHistoryVO.setExtraAttribute(JSONObject.parseObject("{\"a\":1}"));
+        speedHistoryVO.setExtraAttribute("{\"a\":1}");
 
         UserDTO userDTO = new UserDTO();
         userDTO.setId(random.nextInt());
