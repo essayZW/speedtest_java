@@ -43,6 +43,7 @@ public class ErrorHandlerController implements ErrorController {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public BaseResponseBody<Map<String, String>> exceptionPage(Exception e, HttpServletRequest request) throws Exception {
+        e.printStackTrace();
         logger.warn("Exception:{}||{}||{}", e.getMessage(), e.getClass().getName(), request.getRequestURI());
         if (e instanceof BindException) {
             BindException me = (BindException) e;

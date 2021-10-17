@@ -33,6 +33,7 @@ public class ApiResponseHandler {
             responseData = joinPoint.proceed();
         }
         catch (Throwable e) {
+            e.printStackTrace();
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             logger.warn("ApiException:{}||{}||{}", e.getMessage(), e.getClass().getName(), request.getRequestURI());
             ExceptionData exceptionData = new ExceptionData();

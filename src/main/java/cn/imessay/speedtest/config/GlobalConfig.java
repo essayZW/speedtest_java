@@ -16,4 +16,14 @@ public class GlobalConfig {
      * AOP切面中放入model中的用户信息
      */
     public static String MODEL_USER_KEY = "CURRENT_USER";
+
+    /**
+     * SESSION 在cookie中的键值
+     */
+    public static String SESSION_ID_NAME = "SESSION_ID";
+
+    /**
+     * 未登录后的重定向地址
+     */
+    public static String NOT_LOGIN_REDIRECT_URL = "/login";
 }

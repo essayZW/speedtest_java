@@ -1,9 +1,8 @@
 package cn.imessay.speedtest.service.history;
 
-import cn.imessay.speedtest.dao.history.SpeedHistoryDO;
-import cn.imessay.speedtest.dao.user.UserDO;
 import cn.imessay.speedtest.exception.UserNotFoundException;
 import cn.imessay.speedtest.pojo.vo.SpeedHistoryVO;
+import cn.imessay.speedtest.pojo.dto.UserDTO;
 import com.alibaba.fastjson.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -30,17 +29,17 @@ class HistoryServiceTest {
         speedHistoryVO.setPing(random.nextFloat());
         speedHistoryVO.setJitter(random.nextFloat());
         speedHistoryVO.setTestPointId(1);
-        speedHistoryVO.setExtraAttribute(JSONObject.parseObject("{\"a\":1}"));
+        speedHistoryVO.setExtraAttribute("{\"a\":1}");
 
-        UserDO userDO = new UserDO();
-        userDO.setId(random.nextInt());
-        System.out.println(historyService.add(speedHistoryVO, userDO));
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(random.nextInt());
+        System.out.println(historyService.add(speedHistoryVO, userDTO));
         assertThrows(UserNotFoundException.class, new Executable() {
             @Override
             public void execute() throws Throwable {
                 historyService.add(speedHistoryVO, null);
             }
         });
-        assertNull(historyService.add(null, userDO));
+        assertNull(historyService.add(null, userDTO));
     }
 }

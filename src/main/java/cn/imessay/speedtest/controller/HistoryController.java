@@ -3,9 +3,9 @@ package cn.imessay.speedtest.controller;
 import cn.imessay.speedtest.annoation.UserLogin;
 import cn.imessay.speedtest.config.ErrorCode;
 import cn.imessay.speedtest.config.GlobalConfig;
-import cn.imessay.speedtest.dao.user.UserDO;
 import cn.imessay.speedtest.exception.UserNotFoundException;
 import cn.imessay.speedtest.pojo.vo.SpeedHistoryVO;
+import cn.imessay.speedtest.pojo.dto.UserDTO;
 import cn.imessay.speedtest.response.BaseResponseBody;
 import cn.imessay.speedtest.service.history.HistoryService;
 import org.slf4j.Logger;
@@ -34,20 +34,20 @@ public class HistoryController {
     public BaseResponseBody<Object> add(@Validated SpeedHistoryVO historyVO, ModelAndView modelAndView) {
         Map<String, Object> model = modelAndView.getModel();
         Long id = null;
-        UserDO userDO = (UserDO) model.get(GlobalConfig.MODEL_USER_KEY);
+        UserDTO userDTO = (UserDTO) model.get(GlobalConfig.MODEL_USER_KEY);
         try {
-            id = historyService.add(historyVO, userDO);
+            id = historyService.add(historyVO, userDTO);
         } catch (UserNotFoundException e) {
             return BaseResponseBody.error(ErrorCode.USER_NOT_FOUND);
         }
-        logger.info("Store New Speed History:{}||{}", historyVO.toString(), userDO.toString());
+        logger.info("Store New Speed History:{}||{}", historyVO.toString(), userDTO.toString());
         Map<String, Object> response = new HashMap<>();
         response.put("id", id);
         if (id != null) {
             return BaseResponseBody.ok(response);
         }
         else {
-            return BaseResponseBody.error(ErrorCode.ADD_SPED_HISTORY_FAIL);
+            return BaseResponseBody.error(ErrorCode.ADD_SPEED_HISTORY_FAIL);
         }
     }
 
