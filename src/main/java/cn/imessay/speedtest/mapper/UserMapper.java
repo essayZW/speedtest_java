@@ -6,4 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper {
     UserDO query(Integer id);
+    Integer insert(UserDO userDO);
+    Integer queryId(String username);
 }

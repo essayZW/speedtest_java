@@ -2,7 +2,7 @@ package cn.imessay.speedtest.controller;
 
 import cn.imessay.speedtest.annoation.AllowCors;
 import cn.imessay.speedtest.annoation.NoCache;
-import cn.imessay.speedtest.pojo.vo.IpInfoVO;
+import cn.imessay.speedtest.pojo.dto.IpInfoDTO;
 import cn.imessay.speedtest.response.BaseResponseBody;
 import cn.imessay.speedtest.service.ip.IpService;
 import cn.imessay.speedtest.util.HttpRequestIP;
@@ -97,9 +97,9 @@ public class TestApiController {
     @ResponseBody
     @NoCache
     @AllowCors
-    public BaseResponseBody<IpInfoVO> getIp(HttpServletRequest request) {
+    public BaseResponseBody<IpInfoDTO> getIp(HttpServletRequest request) {
         String ip = HttpRequestIP.get(request);
-        IpInfoVO ipInfoDTO = ipService.getInfo(ip);
+        IpInfoDTO ipInfoDTO = ipService.getInfo(ip);
         return BaseResponseBody.ok(ipInfoDTO);
     }
 

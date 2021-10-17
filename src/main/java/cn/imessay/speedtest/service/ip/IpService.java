@@ -3,7 +3,7 @@ package cn.imessay.speedtest.service.ip;
 import cn.imessay.speedtest.config.GlobalConfig;
 import cn.imessay.speedtest.dao.cidr.CidrDO;
 import cn.imessay.mybatis.type.AddressType;
-import cn.imessay.speedtest.pojo.vo.IpInfoVO;
+import cn.imessay.speedtest.pojo.dto.IpInfoDTO;
 import cn.imessay.speedtest.service.cidr.CidrService;
 import com.alibaba.fastjson.JSONObject;
 import okhttp3.*;
@@ -25,9 +25,9 @@ public class IpService {
     @Autowired
     private CidrService cidrService;
 
-    public IpInfoVO getInfo(String ip) {
+    public IpInfoDTO getInfo(String ip) {
         CidrDO cidrDO = cidrService.getFirstMatched(ip);
-        IpInfoVO ipInfoDTO = new IpInfoVO();
+        IpInfoDTO ipInfoDTO = new IpInfoDTO();
         ipInfoDTO.setIp(ip);
         ipInfoDTO.setType(getType(ip));
         if (cidrDO == null) {
@@ -55,7 +55,7 @@ public class IpService {
         }
     }
 
-    private IpInfoVO queryIpInfo(String ip) throws InterruptedException {
+    private IpInfoDTO queryIpInfo(String ip) throws InterruptedException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(GlobalConfig.IP_API_ADDRESS + ip).build();
         CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -99,7 +99,7 @@ public class IpService {
         });
         countDownLatch.await(GlobalConfig.MAX_IP_API_AWAIT_TIME, TimeUnit.SECONDS);
 
-        IpInfoVO ipInfoDTO = new IpInfoVO();
+        IpInfoDTO ipInfoDTO = new IpInfoDTO();
         ipInfoDTO.setIp(ip);
         ipInfoDTO.setPosition(responseJson.getString("position"));
         ipInfoDTO.setIsp(responseJson.getString("isp"));

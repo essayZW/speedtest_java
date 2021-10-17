@@ -5,6 +5,7 @@
 <configuration>
     <typeAliases>
         <typeAlias type="cn.imessay.speedtest.dao.history.SpeedHistoryDO" alias="SpeedHistoryDO" />
+        <typeAlias type="cn.imessay.speedtest.dao.user.UserDO" alias="UserDO" />
     </typeAliases>
     <typeHandlers>
         <typeHandler handler="cn.imessay.mybatis.type.handler.AddressTypeHandler" javaType="cn.imessay.mybatis.type.AddressType"/>

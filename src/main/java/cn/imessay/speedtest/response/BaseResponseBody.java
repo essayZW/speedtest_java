@@ -17,14 +17,24 @@ public class BaseResponseBody<T> {
     public BaseResponseBody(T data, Boolean status) {
         this.data = data;
         this.status = status;
-        this.className = data.getClass().getName();
+        if (data != null) {
+            this.className = data.getClass().getName();
+        }
+        else {
+            this.className = "null";
+        }
     }
 
     public static <T> BaseResponseBody<T> ok(T data) {
         BaseResponseBody<T> res =  new BaseResponseBody<>();
         res.setStatus(true);
         res.setData(data);
-        res.setClassName(data.getClass().getName());
+        if (data != null) {
+            res.setClassName(data.getClass().getName());
+        }
+        else {
+            res.setClassName("null");
+        }
         return res;
     }
 
@@ -32,7 +42,12 @@ public class BaseResponseBody<T> {
         BaseResponseBody<T> res =  new BaseResponseBody<>();
         res.setStatus(false);
         res.setData(data);
-        res.setClassName(data.getClass().getName());
+        if (data != null) {
+            res.setClassName(data.getClass().getName());
+        }
+        else {
+            res.setClassName("null");
+        }
         return res;
     }
 }

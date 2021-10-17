@@ -13,4 +13,19 @@ public class UserDAO {
     public UserDO query(int id) {
         return userMapper.query(id);
     }
+
+    public Integer insert(UserDO userDO) {
+        if (userDO == null) return null;
+        int status = userMapper.insert(userDO);
+        if (status == 0) {
+            return null;
+        }
+        else {
+            return userDO.getId();
+        }
+    }
+
+    public Integer queryId(String username) {
+        return userMapper.queryId(username);
+    }
 }

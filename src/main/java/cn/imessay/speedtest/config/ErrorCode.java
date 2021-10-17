@@ -7,6 +7,8 @@ public enum ErrorCode {
 
     USER_NOT_FOUND("该用户不存在"),
 
+    USER_ADD_FAIL("用户添加失败"),
+
     ADD_SPEED_HISTORY_FAIL("记录测速历史失败")
     ;
 

@@ -1,4 +1,4 @@
-package cn.imessay.speedtest.pojo.vo;
+package cn.imessay.speedtest.pojo.dto;
 
 import cn.imessay.mybatis.type.AddressType;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class IpInfoVO {
+public class IpInfoDTO {
 
     private String ip;
     private String cidr;

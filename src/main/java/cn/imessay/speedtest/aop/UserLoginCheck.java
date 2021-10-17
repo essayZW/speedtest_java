@@ -2,9 +2,7 @@ package cn.imessay.speedtest.aop;
 
 import cn.imessay.speedtest.annoation.UserLogin;
 import cn.imessay.speedtest.config.GlobalConfig;
-import cn.imessay.speedtest.dao.user.UserDO;
-import cn.imessay.speedtest.pojo.vo.UserVO;
-import cn.imessay.speedtest.response.BaseResponseBody;
+import cn.imessay.speedtest.pojo.dto.UserDTO;
 import cn.imessay.speedtest.service.user.UserService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -12,7 +10,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -42,11 +39,11 @@ public class UserLoginCheck {
             }
         }
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        UserVO userVO = getLoginUserInfo(request);
-        if (userLogin.redirect() && userVO == null) {
+        UserDTO userDTO = getLoginUserInfo(request);
+        if (userLogin.redirect() && userDTO == null) {
             return "redirect:" + GlobalConfig.NOT_LOGIN_REDIRECT_URL;
         }
-        model.getModel().put(GlobalConfig.MODEL_USER_KEY, userVO);
+        model.getModel().put(GlobalConfig.MODEL_USER_KEY, userDTO);
         try {
             return joinPoint.proceed();
         } catch (Throwable ignored) {
@@ -54,7 +51,7 @@ public class UserLoginCheck {
         }
     }
 
-    private UserVO getLoginUserInfo(HttpServletRequest request) {
+    private UserDTO getLoginUserInfo(HttpServletRequest request) {
         String sessionId = getSessionId(request);
         if (sessionId == null) {
             return null;
