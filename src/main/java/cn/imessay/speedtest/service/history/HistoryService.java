@@ -5,6 +5,7 @@ import cn.imessay.speedtest.dao.history.SpeedHistoryDO;
 import cn.imessay.speedtest.dao.user.UserDO;
 import cn.imessay.speedtest.exception.UserNotFoundException;
 import cn.imessay.speedtest.pojo.vo.SpeedHistoryVO;
+import cn.imessay.speedtest.pojo.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +17,11 @@ public class HistoryService {
     /**
      * 增加一条测速历史信息
      * @param historyVO 测速历史信息
-     * @param userDO 添加的用户
+     * @param userVO 添加的用户
      * @return 插入的信息在数据库中的主键ID，若为null则插入失败
      */
-    public Long add(SpeedHistoryVO historyVO, UserDO userDO) throws UserNotFoundException {
-        if (userDO == null) {
+    public Long add(SpeedHistoryVO historyVO, UserVO userVO) throws UserNotFoundException {
+        if (userVO == null) {
             throw new UserNotFoundException("User can't null");
         }
         if (historyVO == null) {
@@ -35,6 +36,6 @@ public class HistoryService {
         speedHistoryDO.setJitter(historyVO.getJitter());
         speedHistoryDO.setTestPointId(historyVO.getTestPointId());
         speedHistoryDO.setExtraAttribute(historyVO.getExtraAttribute());
-        return speedHistoryDAO.insert(speedHistoryDO, userDO);
+        return speedHistoryDAO.insert(speedHistoryDO, userVO);
     }
 }

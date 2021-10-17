@@ -1,6 +1,7 @@
 package cn.imessay.speedtest.dao.history;
 
 import cn.imessay.speedtest.dao.user.UserDO;
+import cn.imessay.speedtest.pojo.vo.UserVO;
 import com.alibaba.fastjson.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ class SpeedHistoryDAOTest {
         speedHistoryDO.setTestPointId(1);
         speedHistoryDO.setExtraAttribute(JSONObject.parseObject("{\"a\":1}"));
 
-        UserDO userDO = new UserDO();
-        userDO.setId(random.nextInt());
-        System.out.println(speedHistoryDAO.insert(speedHistoryDO, userDO));
+        UserVO userVO = new UserVO();
+        userVO.setId(random.nextInt());
+        System.out.println(speedHistoryDAO.insert(speedHistoryDO, userVO));
     }
 }
