@@ -8,4 +8,5 @@ public interface UserMapper {
     UserDO query(Integer id);
     Integer insert(UserDO userDO);
     Integer queryId(String username);
+    UserDO loginQuery(String username, String password);
 }

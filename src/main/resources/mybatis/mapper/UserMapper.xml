@@ -11,4 +11,7 @@
     <select id="queryId" resultType="integer">
         SELECT id FROM speedtest_user WHERE `username` = #{username}
     </select>
+    <select id="loginQuery" resultType="UserDO">
+        SELECT * FROM speedtest_user WHERE `username` = #{username} AND password= #{password}
+    </select>
 </mapper>
