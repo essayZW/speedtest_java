@@ -3,6 +3,7 @@ package cn.imessay.speedtest.aop;
 import cn.imessay.speedtest.annoation.UserLogin;
 import cn.imessay.speedtest.config.GlobalConfig;
 import cn.imessay.speedtest.pojo.dto.UserDTO;
+import cn.imessay.speedtest.service.redis.RedisService;
 import cn.imessay.speedtest.service.user.UserService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -24,6 +25,9 @@ import java.util.Objects;
 public class UserLoginCheck {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RedisService redisService;
 
     @Pointcut("@annotation(cn.imessay.speedtest.annoation.UserLogin)")
     private void check() {}
@@ -56,7 +60,15 @@ public class UserLoginCheck {
         if (sessionId == null) {
             return null;
         }
-        return userService.getUserInfo(1);
+        Object value = redisService.get(GlobalConfig.USER_SESSION_KEY_PREFIX + sessionId);
+        Integer userId = null;
+        try {
+            userId = Integer.valueOf(value.toString());
+        }
+        catch (NumberFormatException e) {
+            return null;
+        }
+        return userService.getUserInfo(userId);
     }
 
     private String getSessionId(HttpServletRequest request) {
