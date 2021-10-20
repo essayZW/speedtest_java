@@ -42,7 +42,7 @@ public class ApiResponseHandler {
             ((BaseResponseBody) responseData).setCode(500);
         }
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-        if (response != null) {
+        if (response != null && responseData != null) {
             response.setStatus(((BaseResponseBody) responseData).getCode());
         }
         return responseData;

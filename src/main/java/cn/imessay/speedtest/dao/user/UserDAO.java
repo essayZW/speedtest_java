@@ -28,4 +28,8 @@ public class UserDAO {
     public Integer queryId(String username) {
         return userMapper.queryId(username);
     }
+
+    public UserDO query(String username, String md5Password) {
+        return userMapper.loginQuery(username, md5Password);
+    }
 }

@@ -3,6 +3,7 @@ package cn.imessay.speedtest.aop;
 import cn.imessay.speedtest.annoation.UserLogin;
 import cn.imessay.speedtest.config.GlobalConfig;
 import cn.imessay.speedtest.pojo.dto.UserDTO;
+import cn.imessay.speedtest.service.redis.RedisService;
 import cn.imessay.speedtest.service.user.UserService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -25,11 +26,14 @@ public class UserLoginCheck {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RedisService redisService;
+
     @Pointcut("@annotation(cn.imessay.speedtest.annoation.UserLogin)")
     private void check() {}
 
     @Around("check() && @annotation(userLogin)")
-    private Object around(ProceedingJoinPoint joinPoint, UserLogin userLogin) {
+    private Object around(ProceedingJoinPoint joinPoint, UserLogin userLogin) throws Throwable {
         Object[] args = joinPoint.getArgs();
         ModelAndView model = null;
         for (Object arg : args) {
@@ -44,11 +48,7 @@ public class UserLoginCheck {
             return "redirect:" + GlobalConfig.NOT_LOGIN_REDIRECT_URL;
         }
         model.getModel().put(GlobalConfig.MODEL_USER_KEY, userDTO);
-        try {
-            return joinPoint.proceed();
-        } catch (Throwable ignored) {
-            return null;
-        }
+        return joinPoint.proceed();
     }
 
     private UserDTO getLoginUserInfo(HttpServletRequest request) {
@@ -56,7 +56,15 @@ public class UserLoginCheck {
         if (sessionId == null) {
             return null;
         }
-        return userService.getUserInfo(1);
+        Object value = redisService.get(GlobalConfig.USER_SESSION_KEY_PREFIX + sessionId);
+        Integer userId = null;
+        try {
+            userId = Integer.valueOf(value.toString());
+        }
+        catch (NumberFormatException e) {
+            return null;
+        }
+        return userService.getUserInfo(userId);
     }
 
     private String getSessionId(HttpServletRequest request) {

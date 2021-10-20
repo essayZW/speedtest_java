@@ -26,4 +26,16 @@ public class GlobalConfig {
      * 未登录后的重定向地址
      */
     public static String NOT_LOGIN_REDIRECT_URL = "/login";
+
+
+    /**
+     * 存储在redis中的sessionid的前缀
+     */
+    public static String USER_SESSION_KEY_PREFIX = "APP_USER_SESSION_";
+
+
+    /**
+     * 用户session的过期时间
+     */
+    public static Long USER_SESSION_EXPIRE_SECONDS = 86400L;
 }

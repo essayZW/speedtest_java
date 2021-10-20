@@ -16,4 +16,9 @@ class UserServiceTest {
         System.out.println(userService.getUserInfo(1));
         assertNull(userService.getUserInfo(-1));
     }
+
+    @Test
+    void login() {
+        System.out.println(userService.login("test123", "test123"));
+    }
 }

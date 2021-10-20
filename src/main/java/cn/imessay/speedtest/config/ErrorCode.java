@@ -9,6 +9,10 @@ public enum ErrorCode {
 
     USER_ADD_FAIL("用户添加失败"),
 
+    USER_REPEAT_LOGIN("用户已经登录"),
+
+    USER_LOGIN_FAIL("用户登录失败"),
+
     ADD_SPEED_HISTORY_FAIL("记录测速历史失败")
     ;
 
