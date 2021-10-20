@@ -1,14 +1,23 @@
 package cn.imessay.speedtest.service.redis;
 
+import cn.imessay.speedtest.config.GlobalConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class RedisService {
+
+
+    @PostConstruct
+    public void init() {
+        GlobalConfig.setRedisService(this);
+        GlobalConfig.initConfig();
+    }
 
 
     @Autowired

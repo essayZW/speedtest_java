@@ -1,5 +1,12 @@
 package cn.imessay.speedtest.config;
 
+import cn.imessay.speedtest.service.redis.RedisService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+
 public class GlobalConfig {
 
     /**
@@ -38,4 +45,47 @@ public class GlobalConfig {
      * 用户session的过期时间
      */
     public static Long USER_SESSION_EXPIRE_SECONDS = 86400L;
+
+
+    /**
+     * 该应用在redis中存储的全局配置项的前缀
+     */
+    public final static String GLOBAL_CONFIG_PREFIX = "SPEEDTEST_GLOBAL_CONFIG_";
+
+
+    private static RedisService redisService;
+
+    public static void setRedisService(RedisService redisService) {
+        GlobalConfig.redisService = redisService;
+    }
+
+    private static Logger logger = LoggerFactory.getLogger(GlobalConfig.class);
+
+    public static void initConfig() {
+        Class<GlobalConfig> configClass = GlobalConfig.class;
+        Field[] fields = configClass.getFields();
+        int allCount = 0;
+        int successCount = 0;
+        int skipCount = 0;
+        for (Field field : fields) {
+            // 因为只有静态公共字段是配置项，所以简单过滤一下
+            if (!Modifier.isStatic(field.getModifiers()) || !Modifier.isPublic(field.getModifiers())) {
+                continue;
+            }
+            allCount ++;
+            Object value = redisService.get(GlobalConfig.GLOBAL_CONFIG_PREFIX + field.getName());
+            if (value != null) {
+                try {
+                    field.set(null, value);
+                    successCount ++;
+                } catch (IllegalAccessException e) {
+                    logger.warn("GlobalConfig Init Error||{}||{}||{}", field.getName(), value.getClass().getName(), value.toString());
+                }
+            }
+            else {
+                skipCount ++;
+            }
+        }
+        logger.info("GlobalConfig Status: success: {}, all: {}, skip: {}", successCount, allCount, skipCount);
+    }
 }
