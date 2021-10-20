@@ -7,13 +7,14 @@ import cn.imessay.speedtest.pojo.dto.UserDTO;
 import cn.imessay.speedtest.pojo.vo.UserVO;
 import cn.imessay.speedtest.response.BaseResponseBody;
 import cn.imessay.speedtest.service.user.UserService;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +53,9 @@ public class UserController {
     @UserLogin
     public BaseResponseBody<Object> login(@RequestParam String username,
                                           @RequestParam String password,
-                                          ModelAndView modelAndView) {
+                                          @RequestParam(required = false, defaultValue = "false") Boolean setCookie,
+                                          ModelAndView modelAndView,
+                                          HttpServletResponse response) {
         UserDTO userDTO = (UserDTO) modelAndView.getModel().get(GlobalConfig.MODEL_USER_KEY);
         if (userDTO != null) {
             return BaseResponseBody.error(ErrorCode.USER_REPEAT_LOGIN);
@@ -61,6 +64,12 @@ public class UserController {
         String sessionId = userService.login(username, password, userInfo);
         if (sessionId == null) {
             return BaseResponseBody.error(ErrorCode.USER_LOGIN_FAIL);
+        }
+        if (setCookie) {
+            Cookie cookie = new Cookie(GlobalConfig.SESSION_ID_NAME, sessionId);
+            cookie.setMaxAge(GlobalConfig.USER_SESSION_EXPIRE_SECONDS.intValue());
+            cookie.setPath("/");
+            response.addCookie(cookie);
         }
         Map<String, Object> responseData = new HashMap<>();
         responseData.put("sessionId", sessionId);

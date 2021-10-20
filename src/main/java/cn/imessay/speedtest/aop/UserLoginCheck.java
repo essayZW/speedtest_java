@@ -33,7 +33,7 @@ public class UserLoginCheck {
     private void check() {}
 
     @Around("check() && @annotation(userLogin)")
-    private Object around(ProceedingJoinPoint joinPoint, UserLogin userLogin) {
+    private Object around(ProceedingJoinPoint joinPoint, UserLogin userLogin) throws Throwable {
         Object[] args = joinPoint.getArgs();
         ModelAndView model = null;
         for (Object arg : args) {
@@ -48,11 +48,7 @@ public class UserLoginCheck {
             return "redirect:" + GlobalConfig.NOT_LOGIN_REDIRECT_URL;
         }
         model.getModel().put(GlobalConfig.MODEL_USER_KEY, userDTO);
-        try {
-            return joinPoint.proceed();
-        } catch (Throwable ignored) {
-            return null;
-        }
+        return joinPoint.proceed();
     }
 
     private UserDTO getLoginUserInfo(HttpServletRequest request) {
