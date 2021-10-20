@@ -34,8 +34,11 @@ public class GlobalConfigService {
         name = name.toUpperCase();
         if (configItems.containsKey(name)) {
             Field field = configItems.get(name);
-            // 将string类型通过反射转化为对应字段的类型
             Class<?> fieldClass = field.getType();
+            if (fieldClass == String.class) {
+                return GlobalConfig.set(field, value);
+            }
+            // 将string类型通过反射转化为对应字段的类型
             Method method = null;
             try {
                 method = fieldClass.getMethod("valueOf", String.class);

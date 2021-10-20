@@ -159,3 +159,21 @@ s.loadServerList("/api/testpoint", (servers) => {
     s.setSelectedServer(s._serverList[index]);
   });
 });
+
+// 获取APP基本信息
+axios.get("/api/config/appinfo").then((rep) => {
+  let response = rep.data;
+  if (response.status) {
+    if (response.data.WEBAPP_NAME) {
+      document.title = response.data.WEBAPP_NAME;
+      I("title").innerHTML = response.data.WEBAPP_NAME;
+    }
+  }
+  else {
+    console.warn(response);
+    alert("APP基础配置信息加载失败");
+  }
+}).catch((error) => {
+  console.error(error);
+  alert("APP基础配置信息加载失败");
+});

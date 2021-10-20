@@ -55,17 +55,14 @@ public class GlobalConfigController {
      */
     @GetMapping("/appinfo")
     public BaseResponseBody<Object> getAppDefaultInfo() {
+        Map<String, Object> responseData = new HashMap<>();
         List<String> configs = initAppConfigNames();
-        List<Map<String, Object>> responseData = new ArrayList<>();
         for (String name : configs) {
-            Map<String, Object> item = new HashMap<>();
-            item.put("key", name);
             try {
-                item.put("value", globalConfigService.get(name));
+                responseData.put(name, globalConfigService.get(name));
             } catch (InvalidConfigNameException e) {
-                continue;
+                e.printStackTrace();
             }
-            responseData.add(item);
         }
         return BaseResponseBody.ok(responseData);
     }
@@ -74,6 +71,5 @@ public class GlobalConfigController {
         List<String> configNames = new ArrayList<>();
         configNames.add("WEBAPP_NAME");
         return configNames;
-
     }
 }
