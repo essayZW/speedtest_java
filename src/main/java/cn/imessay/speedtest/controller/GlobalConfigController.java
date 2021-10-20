@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -44,6 +46,34 @@ public class GlobalConfigController {
         else {
             return BaseResponseBody.error(ErrorCode.CONFIG_UPDATE_FAIL);
         }
+
+    }
+
+
+    /**
+     * 获取app的基本信息
+     */
+    @GetMapping("/appinfo")
+    public BaseResponseBody<Object> getAppDefaultInfo() {
+        List<String> configs = initAppConfigNames();
+        List<Map<String, Object>> responseData = new ArrayList<>();
+        for (String name : configs) {
+            Map<String, Object> item = new HashMap<>();
+            item.put("key", name);
+            try {
+                item.put("value", globalConfigService.get(name));
+            } catch (InvalidConfigNameException e) {
+                continue;
+            }
+            responseData.add(item);
+        }
+        return BaseResponseBody.ok(responseData);
+    }
+
+    private List<String> initAppConfigNames() {
+        List<String> configNames = new ArrayList<>();
+        configNames.add("WEBAPP_NAME");
+        return configNames;
 
     }
 }

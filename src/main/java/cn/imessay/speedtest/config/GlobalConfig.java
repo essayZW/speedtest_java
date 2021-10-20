@@ -53,6 +53,11 @@ public class GlobalConfig {
     public final static String GLOBAL_CONFIG_PREFIX = "SPEEDTEST_GLOBAL_CONFIG_";
 
 
+    /**
+     * 该web应用的名称
+     */
+    public static String WEBAPP_NAME = "Speedtest";
+
     private static RedisService redisService;
 
     public static void setRedisService(RedisService redisService) {
