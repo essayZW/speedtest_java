@@ -76,4 +76,18 @@ public class UserController {
         responseData.put("info", userInfo);
         return BaseResponseBody.ok(responseData);
     }
+
+
+    @GetMapping("/logined")
+    @UserLogin
+    public BaseResponseBody<Object> getLoginedInfo(ModelAndView modelAndView) {
+        Object value = modelAndView.getModel().get(GlobalConfig.MODEL_USER_KEY);
+        if (value != null) {
+            return BaseResponseBody.ok(value);
+        }
+        else {
+            return BaseResponseBody.error(ErrorCode.USER_NOT_LOGIN);
+        }
+
+    }
 }
