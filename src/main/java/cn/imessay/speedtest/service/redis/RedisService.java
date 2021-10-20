@@ -29,13 +29,25 @@ public class RedisService {
         return value;
     }
 
-    public void set(Object key, Object value) {
+    public boolean set(Object key, Object value) {
         ValueOperations<Object, Object> ops = redisTemplate.opsForValue();
-        ops.set(key, value);
+        try {
+            ops.set(key, value);
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
     }
 
-    public void set(Object key, Object value, Long time, TimeUnit timeUnit) {
+    public boolean set(Object key, Object value, Long time, TimeUnit timeUnit) {
         ValueOperations<Object, Object> ops = redisTemplate.opsForValue();
-        ops.set(key, value, time, timeUnit);
+        try {
+            ops.set(key, value, time, timeUnit);
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
     }
 }

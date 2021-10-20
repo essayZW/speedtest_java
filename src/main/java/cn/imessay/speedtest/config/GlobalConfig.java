@@ -61,6 +61,9 @@ public class GlobalConfig {
 
     private static Logger logger = LoggerFactory.getLogger(GlobalConfig.class);
 
+    /**
+     * 从redis中初始化配置
+     */
     public static void initConfig() {
         Class<GlobalConfig> configClass = GlobalConfig.class;
         Field[] fields = configClass.getFields();
@@ -87,5 +90,23 @@ public class GlobalConfig {
             }
         }
         logger.info("GlobalConfig Status: success: {}, all: {}, skip: {}", successCount, allCount, skipCount);
+    }
+
+    /**
+     * 设置配置的值，并同步到redis中
+     * @param field 字段值
+     * @param value 新的值
+     */
+    public static boolean set(Field field, Object value) {
+        boolean status = redisService.set(GLOBAL_CONFIG_PREFIX + field.getName(), value);
+        if (status) {
+            try {
+                field.set(null, value);
+            }
+            catch (IllegalAccessException e) {
+                status = false;
+            }
+        }
+        return status;
     }
 }

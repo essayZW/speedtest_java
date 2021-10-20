@@ -75,10 +75,13 @@ public class UserService {
         }
         String sessionId = UUID.randomUUID().toString();
         sessionId = sessionId.replace("-", "");
-        redisService.set(GlobalConfig.USER_SESSION_KEY_PREFIX + sessionId,
+        boolean status = redisService.set(GlobalConfig.USER_SESSION_KEY_PREFIX + sessionId,
                 userDO.getId(),
                 GlobalConfig.USER_SESSION_EXPIRE_SECONDS,
                 TimeUnit.SECONDS);
+        if (!status) {
+            return null;
+        }
         if (loginedUserInfo != null) {
             loginedUserInfo.setUsername(userDO.getUsername());
             loginedUserInfo.setId(userDO.getId());
