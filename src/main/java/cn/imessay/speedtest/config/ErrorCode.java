@@ -13,7 +13,11 @@ public enum ErrorCode {
 
     USER_LOGIN_FAIL("用户登录失败"),
 
-    ADD_SPEED_HISTORY_FAIL("记录测速历史失败")
+    ADD_SPEED_HISTORY_FAIL("记录测速历史失败"),
+
+    INVALID_CONFIG_NAME("不存在的配置名称"),
+
+    CONFIG_UPDATE_FAIL("配置修改失败")
     ;
 
     private final String message;

@@ -81,7 +81,7 @@ public class GlobalConfig {
                 try {
                     field.set(null, value);
                     successCount ++;
-                } catch (IllegalAccessException e) {
+                } catch (IllegalAccessException | IllegalArgumentException e) {
                     logger.warn("GlobalConfig Init Error||{}||{}||{}", field.getName(), value.getClass().getName(), value.toString());
                 }
             }

@@ -1,12 +1,16 @@
 package cn.imessay.speedtest.service.config;
 
 import cn.imessay.speedtest.config.GlobalConfig;
+import cn.imessay.speedtest.exception.InvalidConfigNameException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @Service
@@ -28,13 +32,32 @@ public class GlobalConfigService {
 
 
     public boolean set(String name, Object value) {
+        name = name.toUpperCase();
         if (configItems.containsKey(name)) {
-            return GlobalConfig.set(configItems.get(name), value);
+            Field field = configItems.get(name);
+            // 将string类型通过反射转化为对应字段的类型
+            Class<?> fieldClass = field.getType();
+            Method method = null;
+            try {
+                method = fieldClass.getMethod("valueOf", String.class);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+                return false;
+            }
+            Object newValue;
+            try {
+                newValue = method.invoke(null, value);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+                return false;
+            }
+            return GlobalConfig.set(field, newValue);
         }
         return false;
     }
 
-    public Object get(String name) {
+    public Object get(String name) throws InvalidConfigNameException {
+        name = name.toUpperCase();
         if (configItems.containsKey(name)) {
             try {
                 return configItems.get(name).get(null);
@@ -42,7 +65,7 @@ public class GlobalConfigService {
                 return null;
             }
         }
-        return null;
+        throw new InvalidConfigNameException(name + " not exists");
     }
 
 
