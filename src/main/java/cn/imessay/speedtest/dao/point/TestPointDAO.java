@@ -15,4 +15,8 @@ public class TestPointDAO {
     public List<TestPointDO> queryAvailable() {
         return testPointMapper.queryAll(1);
     }
+
+    public TestPointDO queryById(Integer id) {
+        return testPointMapper.queryById(id);
+    }
 }

@@ -15,4 +15,8 @@ public class TestPointService {
     public List<TestPointDO> queryAvailable() {
         return testPointDAO.queryAvailable();
     }
+
+    public TestPointDO queryById(Integer id) {
+        return testPointDAO.queryById(id);
+    }
 }

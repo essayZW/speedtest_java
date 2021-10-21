@@ -8,4 +8,5 @@ import java.util.List;
 @Mapper
 public interface TestPointMapper {
     List<TestPointDO> queryAll(Integer status);
+    TestPointDO queryById(Integer id);
 }

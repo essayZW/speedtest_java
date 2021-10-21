@@ -159,3 +159,38 @@ s.loadServerList("/api/testpoint", (servers) => {
     s.setSelectedServer(s._serverList[index]);
   });
 });
+
+// 获取APP基本信息
+axios.get("/api/config/appinfo").then((rep) => {
+  let response = rep.data;
+  if (response.status) {
+    window.APP_CONFIG = response.data;
+    if (response.data.WEBAPP_NAME) {
+      document.title = response.data.WEBAPP_NAME;
+      I("title").innerHTML = response.data.WEBAPP_NAME;
+    }
+  }
+  else {
+    console.warn(response);
+    alert("APP基础配置信息加载失败");
+  }
+}).catch((error) => {
+  console.error(error);
+  alert("APP基础配置信息加载失败");
+});
+
+// 获取登录信息
+axios.get("/api/user/logined").then((rep) => {
+  let response = rep.data;
+  if (response.status) {
+    window.USER_INFO = response.data;
+    document.querySelector(".header>.name>span").innerHTML = response.data.username;
+  }
+  else {
+    alert(response.data.message);
+  }
+
+}).catch((error) => {
+  console.error(error);
+  alert("获取登录信息失败");
+});

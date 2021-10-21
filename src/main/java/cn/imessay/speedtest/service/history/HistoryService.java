@@ -3,11 +3,15 @@ package cn.imessay.speedtest.service.history;
 import cn.imessay.speedtest.dao.history.SpeedHistoryDAO;
 import cn.imessay.speedtest.dao.history.SpeedHistoryDO;
 import cn.imessay.speedtest.exception.UserNotFoundException;
+import cn.imessay.speedtest.pojo.dto.SpeedHistoryDTO;
+import cn.imessay.speedtest.pojo.vo.PageQueryVO;
 import cn.imessay.speedtest.pojo.vo.SpeedHistoryVO;
 import cn.imessay.speedtest.pojo.dto.UserDTO;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class HistoryService {
@@ -37,5 +41,15 @@ public class HistoryService {
         speedHistoryDO.setTestPointId(historyVO.getTestPointId());
         speedHistoryDO.setExtraAttribute(JSONObject.parseObject(historyVO.getExtraAttribute()));
         return speedHistoryDAO.insert(speedHistoryDO, userDTO);
+    }
+
+
+    /**
+     * 分页查询某个用户的测速历史记录
+     * @param userDTO 用户信息
+     * @param pageQueryVO 分页信息
+     */
+    public List<SpeedHistoryDTO> queryByUser(UserDTO userDTO, PageQueryVO pageQueryVO) {
+        return speedHistoryDAO.queryByUser(userDTO, pageQueryVO);
     }
 }
