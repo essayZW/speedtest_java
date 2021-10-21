@@ -14,11 +14,11 @@
         FROM speedtest_testpoint, (
             SELECT * FROM speedtest_user WHERE id = #{userId}
         ) AS user_temp,
-                      (
-                          SELECT * FROM speedtest_history WHERE id &lt;= (
-                              SELECT id FROM speedtest_history WHERE userid = #{userId} ORDER BY `time` DESC LIMIT #{offset}, 1
-                      ) ORDER BY `time` DESC LIMIT #{limit}
-        ) AS history_temp
+             (
+                 SELECT * FROM speedtest_history WHERE id &lt;= (
+                     SELECT id FROM speedtest_history WHERE userid = #{userId} ORDER BY `time` DESC LIMIT #{offset}, 1
+             ) ORDER BY `time` DESC LIMIT #{limit}
+            ) AS history_temp
         WHERE speedtest_testpoint.id = history_temp.testpointid
         AND user_temp.id = history_temp.userid;
     </select>

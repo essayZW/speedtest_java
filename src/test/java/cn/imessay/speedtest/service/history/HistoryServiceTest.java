@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Random;
 
@@ -41,5 +42,18 @@ class HistoryServiceTest {
             }
         });
         assertNull(historyService.add(null, userDTO));
+    }
+
+    @Test
+    void testAdd() throws UserNotFoundException {
+        for (int i = 0; i < 10000; i ++) {
+            historyService.patchAddForTest(100);
+            System.out.printf("insert %d, %d\n", i + 1, 100);
+        }
+    }
+
+
+    @Test
+    void queryByUser() {
     }
 }

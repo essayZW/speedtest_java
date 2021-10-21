@@ -10,8 +10,10 @@ import cn.imessay.speedtest.pojo.dto.UserDTO;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class HistoryService {
@@ -51,5 +53,31 @@ public class HistoryService {
      */
     public List<SpeedHistoryDTO> queryByUser(UserDTO userDTO, PageQueryVO pageQueryVO) {
         return speedHistoryDAO.queryByUser(userDTO, pageQueryVO);
+    }
+
+
+    /**
+     * 用于性能测试的基于事务的批量插入
+     * @param size
+     * @throws UserNotFoundException
+     */
+    @Transactional
+    public void patchAddForTest(int size) throws UserNotFoundException {
+        for (int i = 0; i <= size; i ++) {
+            SpeedHistoryVO speedHistoryVO = new SpeedHistoryVO();
+            Random random = new Random();
+            speedHistoryVO.setIp("127.0.0.1");
+            speedHistoryVO.setUa("Useragent");
+            speedHistoryVO.setDl(random.nextFloat());
+            speedHistoryVO.setUl(random.nextFloat());
+            speedHistoryVO.setPing(random.nextFloat());
+            speedHistoryVO.setJitter(random.nextFloat());
+            speedHistoryVO.setTestPointId(1);
+            speedHistoryVO.setExtraAttribute("{\"a\":1}");
+
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(1);
+            add(speedHistoryVO, userDTO);
+        }
     }
 }
