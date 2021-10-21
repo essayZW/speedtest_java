@@ -33,4 +33,14 @@ public class IndexController {
         }
         return "login";
     }
+
+    @RequestMapping("/register")
+    @UserLogin
+    public String registerPage(ModelAndView modelAndView) {
+        Object value = modelAndView.getModel().get(GlobalConfig.MODEL_USER_KEY);
+        if (value != null) {
+            return "redirect:/";
+        }
+        return "register";
+    }
 }
