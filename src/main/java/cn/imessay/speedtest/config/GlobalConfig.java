@@ -98,15 +98,19 @@ public class GlobalConfig {
      * @param value 新的值
      */
     public static boolean set(Field field, Object value) {
-        boolean status = redisService.set(GLOBAL_CONFIG_PREFIX + field.getName(), value);
-        if (status) {
-            try {
-                field.set(null, value);
+         // 将缓存设置和字段设置合并为一个原子操作
+         // 避免缓存中的值和当前内存中的值不一致
+        synchronized (field.getName().intern()) {
+            boolean status = redisService.set(GLOBAL_CONFIG_PREFIX + field.getName(), value);
+            if (status) {
+                try {
+                    field.set(null, value);
+                }
+                catch (IllegalAccessException e) {
+                    status = false;
+                }
             }
-            catch (IllegalAccessException e) {
-                status = false;
-            }
+            return status;
         }
-        return status;
     }
 }
