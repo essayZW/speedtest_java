@@ -1,6 +1,7 @@
 package cn.imessay.speedtest.controller;
 
 import cn.imessay.speedtest.annoation.UserLogin;
+import cn.imessay.speedtest.config.GlobalConfig;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -10,7 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class IndexController {
 
     @RequestMapping("")
-    public String index() {
+    @UserLogin(redirect = true)
+    public String index(ModelAndView modelAndView) {
         return "index";
     }
 
@@ -19,5 +21,16 @@ public class IndexController {
     @UserLogin(redirect = true)
     public String history(ModelAndView modelAndView) {
         return "index";
+    }
+
+
+    @RequestMapping("/login")
+    @UserLogin
+    public String loginPage(ModelAndView modelAndView) {
+        Object value = modelAndView.getModel().get(GlobalConfig.MODEL_USER_KEY);
+        if (value != null) {
+            return "redirect:/";
+        }
+        return "login";
     }
 }
