@@ -22,7 +22,7 @@ public class GlobalConfig {
     /**
      * AOP切面中放入model中的用户信息
      */
-    public static String MODEL_USER_KEY = "CURRENT_USER";
+    public final static String MODEL_USER_KEY = "CURRENT_USER";
 
     /**
      * SESSION 在cookie中的键值
@@ -77,7 +77,9 @@ public class GlobalConfig {
         int skipCount = 0;
         for (Field field : fields) {
             // 因为只有静态公共字段是配置项，所以简单过滤一下
-            if (!Modifier.isStatic(field.getModifiers()) || !Modifier.isPublic(field.getModifiers())) {
+            if (!Modifier.isStatic(field.getModifiers())
+                    ||!Modifier.isPublic(field.getModifiers())
+                    || Modifier.isFinal(field.getModifiers())) {
                 continue;
             }
             allCount ++;
