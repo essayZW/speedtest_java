@@ -6,6 +6,12 @@ module.exports = {
       template: 'public/index.html',
       filename: 'index.html',
       title: 'Speedtest-测速网站'
+    },
+    userLogin: {
+      entry: 'src/pages/userLogin/main.js',
+      template: 'public/index.html',
+      filename: 'login.html',
+      title: '登录'
     }
   },
   devServer: {
