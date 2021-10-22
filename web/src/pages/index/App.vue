@@ -17,7 +17,7 @@
           </el-menu-item>
           <el-menu-item index="/">首页</el-menu-item>
           <el-menu-item index="/history">测速记录</el-menu-item>
-          <el-submenu class="user">
+          <el-submenu class="user" index="">
             <template slot="title">{{ username }}</template>
             <el-menu-item><el-link type="danger" href="/loggout" :underline="false">退出登录</el-link></el-menu-item>
           </el-submenu>

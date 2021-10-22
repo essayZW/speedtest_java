@@ -252,6 +252,7 @@ export default {
     },
   },
   mounted: function () {
+    this.s.setParameter("telemetry_level", "basic");
     this.initUI();
     this.frame();
     this.s.loadServerList(ApiHost + "/api/testpoint?cors=1", (servers) => {

@@ -380,6 +380,8 @@ Speedtest.prototype = {
         this._selectedServer.server + ':' + this._selectedServer.port + this._selectedServer.pingURL;
       this._settings.url_getIp =
         this._selectedServer.server + ':' + this._selectedServer.port + this._selectedServer.getIpURL;
+      this._settings.url_telemetry = 
+        window.location.protocol + '//' + window.location.host + '/api/history'
       this._settings.server_id = this._selectedServer.id;
       if (typeof this._originalExtra !== "undefined") {
         this._settings.telemetry_extra = JSON.stringify({
