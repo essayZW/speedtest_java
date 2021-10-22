@@ -52,17 +52,20 @@ public class HistoryController {
         }
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/user")
     @UserLogin
-    public BaseResponseBody<Object> queryByUser(@PathVariable("username") String username,
-                                                 @Validated PageQueryVO pageQueryVO,
+    public BaseResponseBody<Object> queryByUser(@Validated PageQueryVO pageQueryVO,
                                                  ModelAndView modelAndView) {
         Object user = modelAndView.getModel().get(GlobalConfig.MODEL_USER_KEY);
         if (user == null) {
             return BaseResponseBody.error(ErrorCode.USER_NOT_LOGIN);
         }
         List<SpeedHistoryDTO> speedHistoryDTOS = historyService.queryByUser((UserDTO) user, pageQueryVO);
-        return BaseResponseBody.ok(speedHistoryDTOS);
+        Integer all = historyService.queryCountByUser((UserDTO) user);
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("count", all);
+        responseData.put("list", speedHistoryDTOS);
+        return BaseResponseBody.ok(responseData);
     }
 
 }

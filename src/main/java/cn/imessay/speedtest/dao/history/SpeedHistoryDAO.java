@@ -29,4 +29,8 @@ public class SpeedHistoryDAO {
         int offset = (pageQueryVO.getIndex() - 1) * pageQueryVO.getSize();
         return speedHistoryMapper.queryByUserId(userDTO.getId(), offset, pageQueryVO.getSize());
     }
+
+    public Integer queryCountByUser(UserDTO userDTO) {
+        return speedHistoryMapper.queryCountByUser(userDTO.getId());
+    }
 }

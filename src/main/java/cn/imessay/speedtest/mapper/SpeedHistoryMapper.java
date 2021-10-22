@@ -11,4 +11,5 @@ public interface SpeedHistoryMapper {
 
     Integer insert(SpeedHistoryDO speedHistoryDO);
     List<SpeedHistoryDTO> queryByUserId(Integer userId, Integer offset, Integer limit);
+    Integer queryCountByUser(Integer userId);
 }
