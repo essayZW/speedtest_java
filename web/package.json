@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "install": "cp -r dist/static/* ../src/main/resources/static/* && cp -r dist/*.html ../src/main/resources/*"
   },
   "dependencies": {
     "core-js": "^3.6.5",
