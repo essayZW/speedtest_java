@@ -12,6 +12,12 @@ module.exports = {
       template: 'public/index.html',
       filename: 'login.html',
       title: '登录'
+    },
+    userRegister: {
+      entry: 'src/pages/userRegister/main.js',
+      template: 'public/index.html',
+      filename: 'register.html',
+      title: '注册'
     }
   },
   devServer: {
