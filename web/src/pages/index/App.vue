@@ -1,28 +1,42 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="../../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <el-container>
+      <el-header>
+        <el-menu
+          :default-active="activeIndex"
+          class="el-menu-demo"
+          mode="horizontal"
+          @select="handleSelect"
+        >
+          <el-menu-item index="1">首页</el-menu-item>
+          <el-menu-item index="2">测速记录</el-menu-item>
+        </el-menu>
+      </el-header>
+      <el-main class="main">
+        <Speedtest class="speedtest"></Speedtest>
+      </el-main>
+      <el-footer>
+      </el-footer>
+    </el-container>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Speedtest from "./components/Speedtest/Speedtest.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    Speedtest,
+  },
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+<style scoped>
+.speedtest {
+  max-width: 600px;
+  margin:0px auto;
+}
+.main {
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
