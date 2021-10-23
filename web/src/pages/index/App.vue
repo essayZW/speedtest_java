@@ -19,7 +19,14 @@
           <el-menu-item index="/history">测速记录</el-menu-item>
           <el-submenu class="user" index="">
             <template slot="title">{{ username }}</template>
-            <el-menu-item><el-link type="danger" href="/loggout" :underline="false">退出登录</el-link></el-menu-item>
+            <el-menu-item>
+              <el-link
+                type="danger"
+                :underline="false"
+                @click="logout"
+                >退出登录</el-link
+              >
+            </el-menu-item>
           </el-submenu>
         </el-menu>
       </el-header>
@@ -36,6 +43,22 @@ import axios from "axios";
 import { ApiHost } from "../../utils/api";
 export default {
   name: "App",
+  methods: {
+    logout: function() {
+      axios.delete(ApiHost + '/api/user/session').then((rep) => {
+        let responseData = rep.data;
+        if (responseData.status) {
+          window.location.href = '/';
+        }
+        else {
+          this.$message.error(responseData.data.message);
+        }
+      }).catch((error) => {
+        console.error(error);
+        this.$message.error("退出登录失败");
+      })
+    }
+  },
   mounted: function () {
     axios
       .get(ApiHost + "/api/config/appinfo")
@@ -52,6 +75,7 @@ export default {
       })
       .catch((error) => {
         console.error(error);
+        this.$message.error("应用信息加载失败");
       });
 
     axios
