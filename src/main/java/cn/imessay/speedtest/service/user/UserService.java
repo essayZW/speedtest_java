@@ -89,4 +89,7 @@ public class UserService {
         }
         return sessionId;
     }
+    public boolean logout(String sessionId) {
+        return redisService.del(GlobalConfig.USER_SESSION_KEY_PREFIX + sessionId);
+    }
 }
