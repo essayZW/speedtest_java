@@ -17,9 +17,13 @@
              (
                  SELECT * FROM speedtest_history WHERE id &lt;= (
                      SELECT id FROM speedtest_history WHERE userid = #{userId} ORDER BY `time` DESC LIMIT #{offset}, 1
-             ) ORDER BY `id` DESC LIMIT #{limit}
+             ) AND userid = #{userId} ORDER BY `id` DESC LIMIT #{limit}
             ) AS history_temp
         WHERE speedtest_testpoint.id = history_temp.testpointid
-        AND user_temp.id = history_temp.userid;
+        AND user_temp.id = history_temp.userid
+        ORDER BY `time` DESC;
+    </select>
+    <select id="queryCountByUser" resultType="integer">
+        SELECT COUNT(*) FROM speedtest_history WHERE `userid` = #{userId}
     </select>
 </mapper>

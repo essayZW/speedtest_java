@@ -61,13 +61,13 @@ public class UserLoginCheck {
         try {
             userId = Integer.valueOf(value.toString());
         }
-        catch (NumberFormatException e) {
+        catch (Exception e) {
             return null;
         }
         return userService.getUserInfo(userId);
     }
 
-    private String getSessionId(HttpServletRequest request) {
+    public static String getSessionId(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies == null) return null;
         for (Cookie cookie : cookies) {

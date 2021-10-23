@@ -1,6 +1,5 @@
 package cn.imessay.speedtest.controller;
 
-import cn.imessay.speedtest.annoation.AllowCors;
 import cn.imessay.speedtest.annoation.NoCache;
 import cn.imessay.speedtest.pojo.dto.IpInfoDTO;
 import cn.imessay.speedtest.response.BaseResponseBody;
@@ -11,10 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,8 +35,8 @@ public class TestApiController {
      * 返回指定长度的字符串即可
      */
     @NoCache
-    @AllowCors
     @RequestMapping("/download")
+    @CrossOrigin
     public void download(@RequestParam(defaultValue = "4") Integer ckSize,
                          HttpServletResponse response) throws IOException {
 
@@ -78,7 +74,7 @@ public class TestApiController {
     @RequestMapping("/empty")
     @ResponseBody
     @NoCache
-    @AllowCors
+    @CrossOrigin
     public String empty(HttpServletRequest request) {
         int bodySize = request.getContentLength() / 1048576;
         if (bodySize > 0) {
@@ -96,7 +92,7 @@ public class TestApiController {
     @RequestMapping("/ip")
     @ResponseBody
     @NoCache
-    @AllowCors
+    @CrossOrigin
     public BaseResponseBody<IpInfoDTO> getIp(HttpServletRequest request) {
         String ip = HttpRequestIP.get(request);
         IpInfoDTO ipInfoDTO = ipService.getInfo(ip);

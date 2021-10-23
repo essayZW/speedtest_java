@@ -50,4 +50,13 @@ public class RedisService {
             return false;
         }
     }
+
+    public boolean del(Object key) {
+        try {
+            return Boolean.TRUE.equals(redisTemplate.delete(key));
+        }
+        catch (Exception e) {
+            return false;
+        }
+    }
 }

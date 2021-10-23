@@ -43,8 +43,8 @@ function twarn(s) {
 var settings = {
   mpot: false, //set to true when in MPOT mode
   test_order: "IP_D_U", //order in which tests will be performed as a string. D=Download, U=Upload, P=Ping+Jitter, I=IP, _=1 second delay
-  time_ul_max: 15, // max duration of upload test in seconds
-  time_dl_max: 15, // max duration of download test in seconds
+  time_ul_max: 35, // max duration of upload test in seconds
+  time_dl_max: 35, // max duration of download test in seconds
   time_auto: true, // if set to true, tests will take less time on faster connections
   time_ulGraceTime: 3, //time to wait in seconds before actually measuring ul speed (wait for buffers to fill)
   time_dlGraceTime: 1.5, //time to wait in seconds before actually measuring dl speed (wait for TCP window to increase)
@@ -91,7 +91,7 @@ function url_sep(url) {
     -start: starts the test. optionally, settings can be passed as JSON.
         example: start {"time_ul_max":"10", "time_dl_max":"10", "count_ping":"50"}
 */
-this.addEventListener("message", function (e) {
+self.addEventListener("message", function (e) {
   var params = e.data.split(" ");
   if (params[0] === "status") {
     // return status
@@ -282,18 +282,18 @@ function clearRequests() {
         xhr[i].onprogress = null;
         xhr[i].onload = null;
         xhr[i].onerror = null;
-      } catch (e) { }
+      } catch (e) { console.error(e) }
       try {
         xhr[i].upload.onprogress = null;
         xhr[i].upload.onload = null;
         xhr[i].upload.onerror = null;
-      } catch (e) { }
+      } catch (e) { console.error(e) }
       try {
         xhr[i].abort();
-      } catch (e) { }
+      } catch (e) { console.error(e) }
       try {
         delete xhr[i];
-      } catch (e) { }
+      } catch (e) { console.error(e) }
     }
     xhr = null;
   }
@@ -358,7 +358,7 @@ function dlTest(done) {
           if (testState !== 1) {
             try {
               x.abort();
-            } catch (e) { }
+            } catch (e) { console.error(e) }
           } // just in case this XHR is still running after the download test
           // progress event, add number of new loaded bytes to totLoaded
           var loadDiff = event.loaded <= 0 ? 0 : event.loaded - prevLoaded;
@@ -371,7 +371,7 @@ function dlTest(done) {
           tverb("dl stream finished " + i);
           try {
             xhr[i].abort();
-          } catch (e) { } // reset the stream data to empty ram
+          } catch (e) { console.error(e) } // reset the stream data to empty ram
           testStream(i, 0);
         }.bind(this);
         xhr[i].onerror = function () {
@@ -380,7 +380,7 @@ function dlTest(done) {
           if (settings.xhr_ignoreErrors === 0) failed = true; //abort
           try {
             xhr[i].abort();
-          } catch (e) { }
+          } catch (e) { console.error(e) }
           delete xhr[i];
           if (settings.xhr_ignoreErrors === 1) testStream(i, 0); //restart stream
         }.bind(this);
@@ -388,7 +388,7 @@ function dlTest(done) {
         try {
           if (settings.xhr_dlUseBlob) xhr[i].responseType = "blob";
           else xhr[i].responseType = "arraybuffer";
-        } catch (e) { }
+        } catch (e) { console.error(e) }
         xhr[i].open("GET", settings.url_dl + url_sep(settings.url_dl) + (settings.mpot ? "cors=true&" : "") + "r=" + Math.random() + "&ckSize=" + settings.garbagePhp_chunkSize, true); // random string to prevent caching
         xhr[i].send();
       }.bind(this),
@@ -451,16 +451,16 @@ function ulTest(done) {
   try {
     r = new Uint32Array(r);
     for (var i = 0; i < r.length; i++) r[i] = Math.random() * maxInt;
-  } catch (e) { }
+  } catch (e) { console.error(e) }
   var req = [];
   var reqsmall = [];
-  for (var i = 0; i < settings.xhr_ul_blob_megabytes; i++) req.push(r);
+  for (let i = 0; i < settings.xhr_ul_blob_megabytes; i++) req.push(r);
   req = new Blob(req);
   r = new ArrayBuffer(262144);
   try {
     r = new Uint32Array(r);
-    for (var i = 0; i < r.length; i++) r[i] = Math.random() * maxInt;
-  } catch (e) { }
+    for (let i = 0; i < r.length; i++) r[i] = Math.random() * maxInt;
+  } catch (e) { console.error(e) }
   reqsmall.push(r);
   reqsmall = new Blob(reqsmall);
   var testFunction = function () {
@@ -499,7 +499,9 @@ function ulTest(done) {
             xhr[i].open("POST", settings.url_ul + url_sep(settings.url_ul) + (settings.mpot ? "cors=true&" : "") + "r=" + Math.random(), true); // random string to prevent caching
             try {
               xhr[i].setRequestHeader("Content-Encoding", "identity"); // disable compression (some browsers may refuse it, but data is incompressible anyway)
-            } catch (e) { }
+            } catch (e) {
+              console.error(e)
+            }
             //No Content-Type header in MPOT branch because it triggers bugs in some browsers
             xhr[i].send(reqsmall);
           } else {
@@ -509,7 +511,9 @@ function ulTest(done) {
               if (testState !== 3) {
                 try {
                   x.abort();
-                } catch (e) { }
+                } catch (e) {
+                  console.error(e)
+                }
               } // just in case this XHR is still running after the upload test
               // progress event, add number of new loaded bytes to totLoaded
               var loadDiff = event.loaded <= 0 ? 0 : event.loaded - prevLoaded;
@@ -527,7 +531,9 @@ function ulTest(done) {
               if (settings.xhr_ignoreErrors === 0) failed = true; //abort
               try {
                 xhr[i].abort();
-              } catch (e) { }
+              } catch (e) {
+                console.error(e)
+              }
               delete xhr[i];
               if (settings.xhr_ignoreErrors === 1) testStream(i, 0); //restart stream
             }.bind(this);
@@ -535,7 +541,7 @@ function ulTest(done) {
             xhr[i].open("POST", settings.url_ul + url_sep(settings.url_ul) + (settings.mpot ? "cors=true&" : "") + "r=" + Math.random(), true); // random string to prevent caching
             try {
               xhr[i].setRequestHeader("Content-Encoding", "identity"); // disable compression (some browsers may refuse it, but data is incompressible anyway)
-            } catch (e) { }
+            } catch (e) { console.error(e) }
             //No Content-Type header in MPOT branch because it triggers bugs in some browsers
             xhr[i].send(req);
           }
@@ -595,7 +601,7 @@ function ulTest(done) {
       tverb("POST request sent, starting upload test");
       testFunction();
     }.bind(this);
-    xhr[0].open("POST", settings.url_ul);
+    xhr[0].open("POST", settings.url_ul + "?cors=true");
     xhr[0].send();
   } else testFunction();
 }
@@ -735,6 +741,9 @@ function sendTelemetry(done) {
       'accessMethod': ipAccessMethod
     }));
     xhr.send(fd);
+    console.log(log);
+    console.log(ispInfo);
   } catch (ex) {
+    console.error(ex)
   }
 }

@@ -1,6 +1,7 @@
 package cn.imessay.speedtest.controller;
 
 import cn.imessay.speedtest.annoation.UserLogin;
+import cn.imessay.speedtest.aop.UserLoginCheck;
 import cn.imessay.speedtest.config.ErrorCode;
 import cn.imessay.speedtest.config.GlobalConfig;
 import cn.imessay.speedtest.pojo.dto.UserDTO;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -75,6 +77,15 @@ public class UserController {
         responseData.put("sessionId", sessionId);
         responseData.put("info", userInfo);
         return BaseResponseBody.ok(responseData);
+    }
+
+    @DeleteMapping("/session")
+    public BaseResponseBody<Object> logout(HttpServletRequest request) {
+        String sessionId = UserLoginCheck.getSessionId(request);
+        if (sessionId != null) {
+            userService.logout(sessionId);
+        }
+        return BaseResponseBody.ok("success");
     }
 
 

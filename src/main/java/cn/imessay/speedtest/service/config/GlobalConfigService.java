@@ -22,7 +22,8 @@ public class GlobalConfigService {
     private void init() {
         Field[] fields = GlobalConfig.class.getFields();
         for (Field field : fields) {
-            if (!Modifier.isStatic(field.getModifiers()) || !Modifier.isPublic(field.getModifiers())) {
+            if (!Modifier.isStatic(field.getModifiers()) || !Modifier.isPublic(field.getModifiers()) ||
+                Modifier.isFinal(field.getModifiers())) {
                 continue;
             }
             configItems.put(field.getName(), field);

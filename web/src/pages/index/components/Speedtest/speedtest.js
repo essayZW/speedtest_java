@@ -1,3 +1,4 @@
+import SpeedtestWorker from './speedtest.worker.js'
 /*
 	LibreSpeed - Main
 	by Federico Dossena
@@ -43,7 +44,7 @@
     - 4: test finished. You can run it again by calling start() if you want.
  */
 
-function Speedtest() {
+let Speedtest = function() {
   this._serverList = []; //when using multiple points of test, this is a list of test points
   this._selectedServer = null; //when using multiple points of test, this is the selected server
   this._settings = {}; //settings for the speedtest worker
@@ -172,6 +173,7 @@ Speedtest.prototype = {
         this.addTestPoints(servers);
         result(servers);
       }catch(e){
+        console.error(e);
         result(null);
       }
     }.bind(this);
@@ -234,7 +236,9 @@ Speedtest.prototype = {
               var d = p.responseStart - p.requestStart;
               if (d <= 0) d = p.duration;
               if (d > 0 && d < instspd) instspd = d;
-            } catch (e) {}
+            } catch (e) {
+              console.error(e)
+            }
             result(instspd);
           } else result(-1);
         }.bind(this);
@@ -246,7 +250,9 @@ Speedtest.prototype = {
           try {
             xhr.timeout = PING_TIMEOUT;
             xhr.ontimeout = xhr.onerror;
-          } catch (e) {}
+          } catch (e) {
+            console.error(e)
+          }
         }
         xhr.send();
       }.bind(this);
@@ -304,15 +310,15 @@ Speedtest.prototype = {
     //parallel server selection
     var CONCURRENCY = 6;
     var serverLists = [];
-    for (var i = 0; i < CONCURRENCY; i++) {
+    for (let i = 0; i < CONCURRENCY; i++) {
       serverLists[i] = [];
     }
-    for (var i = 0; i < this._serverList.length; i++) {
+    for (let i = 0; i < this._serverList.length; i++) {
       serverLists[i % CONCURRENCY].push(this._serverList[i]);
     }
     var completed = 0;
     var bestServer = null;
-    for (var i = 0; i < CONCURRENCY; i++) {
+    for (let i = 0; i < CONCURRENCY; i++) {
       select(
         serverLists[i],
         function(server) {
@@ -337,7 +343,7 @@ Speedtest.prototype = {
    */
   start: function() {
     if (this._state == 3) throw "Test already running";
-    this.worker = new Worker("/static/js/speedtest_worker.js?r=" + Math.random());
+    this.worker = new SpeedtestWorker();
     this.worker.onmessage = function(e) {
       if (e.data === this._prevData) return;
       else this._prevData = e.data;
@@ -374,6 +380,8 @@ Speedtest.prototype = {
         this._selectedServer.server + ':' + this._selectedServer.port + this._selectedServer.pingURL;
       this._settings.url_getIp =
         this._selectedServer.server + ':' + this._selectedServer.port + this._selectedServer.getIpURL;
+      this._settings.url_telemetry = 
+        window.location.protocol + '//' + window.location.host + '/api/history'
       this._settings.server_id = this._selectedServer.id;
       if (typeof this._originalExtra !== "undefined") {
         this._settings.telemetry_extra = JSON.stringify({
@@ -396,3 +404,5 @@ Speedtest.prototype = {
     if (this._state < 4) this.worker.postMessage("abort");
   }
 };
+
+export default Speedtest;

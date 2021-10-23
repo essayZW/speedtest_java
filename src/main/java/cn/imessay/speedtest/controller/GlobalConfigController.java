@@ -70,6 +70,7 @@ public class GlobalConfigController {
     private List<String> initAppConfigNames() {
         List<String> configNames = new ArrayList<>();
         configNames.add("WEBAPP_NAME");
+        configNames.add("NOT_LOGIN_REDIRECT_URL");
         return configNames;
     }
 }

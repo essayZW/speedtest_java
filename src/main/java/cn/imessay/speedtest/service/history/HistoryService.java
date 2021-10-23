@@ -55,6 +55,15 @@ public class HistoryService {
         return speedHistoryDAO.queryByUser(userDTO, pageQueryVO);
     }
 
+    /**
+     * 查询某个用户的总的测速记录次数
+     * @param userDTO
+     * @return
+     */
+    public Integer queryCountByUser(UserDTO userDTO) {
+        return speedHistoryDAO.queryCountByUser(userDTO);
+    }
+
 
     /**
      * 用于性能测试的基于事务的批量插入
