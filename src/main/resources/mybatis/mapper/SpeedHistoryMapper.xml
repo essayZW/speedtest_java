@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.imessay.speedtest.mapper.SpeedHistoryMapper">
+    <insert id="insert" parameterType="SpeedHistoryDO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO speedtest_history
+        (ip, ua, dl, ul, ping, jitter, userid, testpointid, extraAttribute)
+        VALUES
+        (#{ip}, #{ua}, #{dl}, #{ul}, #{ping}, #{jitter}, #{userid}, #{testPointId}, #{extraAttribute})
+    </insert>
+    <select id="queryByUserId" resultType="SpeedHistoryDTO">
+        SELECT history_temp.*, user_temp.username,
+               user_temp.extraAttribute AS userExtraAttribute,
+               speedtest_testpoint.name AS testPointName
+        FROM speedtest_testpoint, (
+            SELECT * FROM speedtest_user WHERE id = #{userId}
+        ) AS user_temp,
+             (
+                 SELECT * FROM speedtest_history WHERE id &lt;= (
+                     SELECT id FROM speedtest_history WHERE userid = #{userId} ORDER BY `time` DESC LIMIT #{offset}, 1
+             ) AND userid = #{userId} ORDER BY `id` DESC LIMIT #{limit}
+            ) AS history_temp
+        WHERE speedtest_testpoint.id = history_temp.testpointid
+        AND user_temp.id = history_temp.userid
+        ORDER BY `time` DESC;
+    </select>
+    <select id="queryCountByUser" resultType="integer">
+        SELECT COUNT(*) FROM speedtest_history WHERE `userid` = #{userId}
+    </select>
+</mapper>

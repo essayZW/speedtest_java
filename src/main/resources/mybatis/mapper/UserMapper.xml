@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.imessay.speedtest.mapper.UserMapper">
+    <select id="query" resultType="UserDO">
+        SELECT * FROM speedtest_user WHERE id = #{id}
+    </select>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="UserDO">
+        INSERT INTO speedtest_user (`username`, `password`, `extraAttribute`)
+        VALUES (#{username}, #{password}, #{extraAttribute})
+    </insert>
+    <select id="queryId" resultType="integer">
+        SELECT id FROM speedtest_user WHERE `username` = #{username}
+    </select>
+    <select id="loginQuery" resultType="UserDO">
+        SELECT * FROM speedtest_user WHERE `username` = #{username} AND password= #{password}
+    </select>
+</mapper>

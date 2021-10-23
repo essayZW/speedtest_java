@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias type="cn.imessay.speedtest.dao.history.SpeedHistoryDO" alias="SpeedHistoryDO" />
+        <typeAlias type="cn.imessay.speedtest.pojo.dto.SpeedHistoryDTO" alias="SpeedHistoryDTO" />
+        <typeAlias type="cn.imessay.speedtest.dao.user.UserDO" alias="UserDO" />
+        <typeAlias type="cn.imessay.speedtest.dao.point.TestPointDO" alias="TestPointDO" />
+    </typeAliases>
+    <typeHandlers>
+        <typeHandler handler="cn.imessay.mybatis.type.handler.AddressTypeHandler" javaType="cn.imessay.mybatis.type.AddressType"/>
+        <typeHandler handler="cn.imessay.mybatis.type.handler.JsonTypeHandler" javaType="com.alibaba.fastjson.JSONObject" />
+    </typeHandlers>
+</configuration>
