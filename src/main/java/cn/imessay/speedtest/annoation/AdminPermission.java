@@ -1,0 +1,14 @@
+package cn.imessay.speedtest.annoation;
+
+import cn.imessay.speedtest.config.GlobalConfig;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface AdminPermission {
+    boolean redirect() default false;
+}

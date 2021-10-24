@@ -1,6 +1,8 @@
 package cn.imessay.speedtest.controller;
 
+import cn.imessay.speedtest.annoation.AdminPermission;
 import cn.imessay.speedtest.config.ErrorCode;
+import cn.imessay.speedtest.config.GlobalConfig;
 import cn.imessay.speedtest.exception.InvalidConfigNameException;
 import cn.imessay.speedtest.response.BaseResponseBody;
 import cn.imessay.speedtest.service.config.GlobalConfigService;
@@ -24,6 +26,7 @@ public class GlobalConfigController {
     private GlobalConfigService globalConfigService;
 
     @GetMapping("/{configName}")
+    @AdminPermission
     public BaseResponseBody<Object> querySingle(@PathVariable("configName") String configName) {
         Map<String, Object> responseData = new HashMap<>();
         Object value = null;
@@ -38,6 +41,7 @@ public class GlobalConfigController {
     }
 
     @PutMapping("/{configName}")
+    @AdminPermission
     public BaseResponseBody<Object> update(@PathVariable("configName") String configName,
                                            @RequestParam String value) {
         if (globalConfigService.set(configName, value)) {
@@ -71,6 +75,7 @@ public class GlobalConfigController {
         List<String> configNames = new ArrayList<>();
         configNames.add("WEBAPP_NAME");
         configNames.add("NOT_LOGIN_REDIRECT_URL");
+        configNames.add("ALLOW_USER_REGISTER");
         return configNames;
     }
 }
