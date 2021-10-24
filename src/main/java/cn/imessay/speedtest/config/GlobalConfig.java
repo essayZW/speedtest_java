@@ -69,6 +69,11 @@ public class GlobalConfig {
     public static String ADMIN_SESSION_NAME = "ASESSION_ID";
 
     /**
+     * 是否允许用户自己注册账户
+     */
+    public static Boolean ALLOW_USER_REGISTER = true;
+
+    /**
      * 该web应用的名称
      */
     public static String WEBAPP_NAME = "Speedtest";

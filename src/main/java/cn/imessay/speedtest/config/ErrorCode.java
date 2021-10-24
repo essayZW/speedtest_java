@@ -17,6 +17,8 @@ public enum ErrorCode {
 
     USER_LOGOUT_FAIL("用户退出登录失败"),
 
+    REGISTER_FORBIDDEN("用户注册受限制"),
+
     ADD_SPEED_HISTORY_FAIL("记录测速历史失败"),
 
     INVALID_CONFIG_NAME("不存在的配置名称"),

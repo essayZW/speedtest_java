@@ -39,6 +39,9 @@ public class UserController {
 
     @PostMapping
     public BaseResponseBody<Object> addUser(@Validated UserVO userVO) {
+        if (!GlobalConfig.ALLOW_USER_REGISTER) {
+            return BaseResponseBody.error(ErrorCode.REGISTER_FORBIDDEN);
+        }
         byte[] passwordBytes = userVO.getPassword().getBytes(StandardCharsets.UTF_8);
         String md5Password = DigestUtils.md5DigestAsHex(passwordBytes);
         userVO.setPassword(md5Password);
