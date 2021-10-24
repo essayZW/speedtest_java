@@ -19,7 +19,9 @@ public enum ErrorCode {
 
     INVALID_CONFIG_NAME("不存在的配置名称"),
 
-    CONFIG_UPDATE_FAIL("配置修改失败")
+    CONFIG_UPDATE_FAIL("配置修改失败"),
+
+    PERMISSION_FORBIDDEN("操作权限受限制")
     ;
 
     private final String message;

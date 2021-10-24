@@ -18,7 +18,7 @@ import java.util.Date;
 
 @Aspect
 @Component
-@Order(0)
+@Order(Integer.MIN_VALUE + 1)
 public class RequestLog {
     private final Logger logger = LoggerFactory.getLogger(RequestLog.class);
 

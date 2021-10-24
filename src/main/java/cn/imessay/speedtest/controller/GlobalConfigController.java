@@ -1,5 +1,6 @@
 package cn.imessay.speedtest.controller;
 
+import cn.imessay.speedtest.annoation.AdminPermission;
 import cn.imessay.speedtest.config.ErrorCode;
 import cn.imessay.speedtest.exception.InvalidConfigNameException;
 import cn.imessay.speedtest.response.BaseResponseBody;
@@ -24,6 +25,7 @@ public class GlobalConfigController {
     private GlobalConfigService globalConfigService;
 
     @GetMapping("/{configName}")
+    @AdminPermission
     public BaseResponseBody<Object> querySingle(@PathVariable("configName") String configName) {
         Map<String, Object> responseData = new HashMap<>();
         Object value = null;

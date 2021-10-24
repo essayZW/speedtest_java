@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @Aspect
 @Component
-@Order(1)
 public class NoCache {
     private final Logger logger = LoggerFactory.getLogger(NoCache.class);
 

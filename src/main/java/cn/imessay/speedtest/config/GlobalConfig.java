@@ -54,6 +54,16 @@ public class GlobalConfig {
 
 
     /**
+     * 管理员密码
+     */
+    public static String ADMIN_PASSWORD = "password";
+
+    /**
+     * 管理员session在redis中的key
+     */
+    public final static String ADMIN_SESSION_KEY = "ADMIN_SESSION";
+
+    /**
      * 该web应用的名称
      */
     public static String WEBAPP_NAME = "Speedtest";
@@ -64,7 +74,7 @@ public class GlobalConfig {
         GlobalConfig.redisService = redisService;
     }
 
-    private static Logger logger = LoggerFactory.getLogger(GlobalConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(GlobalConfig.class);
 
     /**
      * 从redis中初始化配置
