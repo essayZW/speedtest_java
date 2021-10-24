@@ -70,10 +70,13 @@ public class UserLoginCheck {
     }
 
     public static String getSessionId(HttpServletRequest request) {
+        return getSessionId(request, GlobalConfig.SESSION_ID_NAME);
+    }
+    public static String getSessionId(HttpServletRequest request, String key) {
         Cookie[] cookies = request.getCookies();
         if (cookies == null) return null;
         for (Cookie cookie : cookies) {
-            if (Objects.equals(cookie.getName(), GlobalConfig.SESSION_ID_NAME)) {
+            if (Objects.equals(cookie.getName(), key)) {
                 return cookie.getValue();
             }
         }

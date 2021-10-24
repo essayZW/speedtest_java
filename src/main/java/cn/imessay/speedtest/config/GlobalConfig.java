@@ -64,6 +64,11 @@ public class GlobalConfig {
     public final static String ADMIN_SESSION_KEY = "ADMIN_SESSION";
 
     /**
+     * 管理员SESSION存储在cookie中的key值
+     */
+    public static String ADMIN_SESSION_NAME = "ASESSION_ID";
+
+    /**
      * 该web应用的名称
      */
     public static String WEBAPP_NAME = "Speedtest";

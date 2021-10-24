@@ -40,6 +40,7 @@ public class GlobalConfigController {
     }
 
     @PutMapping("/{configName}")
+    @AdminPermission
     public BaseResponseBody<Object> update(@PathVariable("configName") String configName,
                                            @RequestParam String value) {
         if (globalConfigService.set(configName, value)) {

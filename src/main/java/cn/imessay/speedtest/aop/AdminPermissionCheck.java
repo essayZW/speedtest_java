@@ -33,7 +33,7 @@ public class AdminPermissionCheck {
     @Around("adminCheck() && @annotation(adminPermission)")
     public Object around(ProceedingJoinPoint joinPoint, AdminPermission adminPermission) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String sessionId = UserLoginCheck.getSessionId(request);
+        String sessionId = UserLoginCheck.getSessionId(request, GlobalConfig.ADMIN_SESSION_NAME);
         if (sessionId == null) {
             return handler(adminPermission, ErrorCode.USER_NOT_LOGIN);
         }
