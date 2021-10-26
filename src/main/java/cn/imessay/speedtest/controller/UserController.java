@@ -7,6 +7,7 @@ import cn.imessay.speedtest.config.GlobalConfig;
 import cn.imessay.speedtest.pojo.dto.UserDTO;
 import cn.imessay.speedtest.pojo.vo.UserVO;
 import cn.imessay.speedtest.response.BaseResponseBody;
+import cn.imessay.speedtest.service.cas.CasService;
 import cn.imessay.speedtest.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;

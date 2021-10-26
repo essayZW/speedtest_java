@@ -32,7 +32,7 @@ public class CasService {
 
     public String valid(String ticket, String service) throws InterruptedException {
         OkHttpClient okHttpClient = new OkHttpClient();
-        String url = GlobalConfig.CAS_CENTER_ADDRESS + "/serviceValidate?ticket=" + ticket
+        String url = GlobalConfig.CAS_CENTER_ADDRESS + GlobalConfig.CAS_TICKET_VALIDATE_PATH + "?ticket=" + ticket
                 + "&service=" + service;
         Request request = new Request.Builder().url(url).build();
         CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -51,6 +51,7 @@ public class CasService {
                 String username = parseXML(xml);
                 logger.info("Cas login||{}||{}", username, xml);
                 res.put("res", username);
+                countDownLatch.countDown();
             }
         });
         countDownLatch.await(GlobalConfig.MAX_IP_API_AWAIT_TIME, TimeUnit.SECONDS);

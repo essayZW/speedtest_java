@@ -98,6 +98,19 @@ public class GlobalConfig {
      */
     public static String USERNAME_ELEMENT_NAME = "";
 
+    /**
+     * CAS登录接口地址
+     */
+    public static String CAS_LOGIN_PATH = "";
+    /**
+     * CAS登出接口地址
+     */
+    public static String CAS_LOGOUT_PATH = "";
+    /**
+     * CAS验证接口地址
+     */
+    public static String CAS_TICKET_VALIDATE_PATH = "";
+
     private static RedisService redisService;
 
     public static void setRedisService(RedisService redisService) {

@@ -46,7 +46,7 @@ public class IndexController {
         if (GlobalConfig.ENABLE_CAS_LOGIN && !GlobalConfig.CAS_CENTER_ADDRESS.isEmpty()) {
             StringBuilder redirectUrl = new StringBuilder("redirect:");
             redirectUrl.append(GlobalConfig.CAS_CENTER_ADDRESS);
-            redirectUrl.append("/login");
+            redirectUrl.append(GlobalConfig.CAS_LOGIN_PATH);
             redirectUrl.append("?service=");
             redirectUrl.append(getCasService(httpServletRequest));
             return redirectUrl.toString();
