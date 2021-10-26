@@ -78,6 +78,26 @@ public class GlobalConfig {
      */
     public static String WEBAPP_NAME = "Speedtest";
 
+
+    /**
+     * CAS验证方面
+     */
+
+    /**
+     * CAS验证中心地址
+     */
+    public static String CAS_CENTER_ADDRESS = "";
+
+    /**
+     * 是否启用CAS验证
+     */
+    public static Boolean ENABLE_CAS_LOGIN = false;
+
+    /**
+     * 用户username在cas验证返回的xml中的节点名称
+     */
+    public static String USERNAME_ELEMENT_NAME = "";
+
     private static RedisService redisService;
 
     public static void setRedisService(RedisService redisService) {
