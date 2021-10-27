@@ -7,6 +7,7 @@ import cn.imessay.speedtest.config.GlobalConfig;
 import cn.imessay.speedtest.pojo.dto.UserDTO;
 import cn.imessay.speedtest.pojo.vo.UserVO;
 import cn.imessay.speedtest.response.BaseResponseBody;
+import cn.imessay.speedtest.service.cas.CasService;
 import cn.imessay.speedtest.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
@@ -39,6 +40,9 @@ public class UserController {
 
     @PostMapping
     public BaseResponseBody<Object> addUser(@Validated UserVO userVO) {
+        if (!GlobalConfig.ALLOW_USER_REGISTER) {
+            return BaseResponseBody.error(ErrorCode.REGISTER_FORBIDDEN);
+        }
         byte[] passwordBytes = userVO.getPassword().getBytes(StandardCharsets.UTF_8);
         String md5Password = DigestUtils.md5DigestAsHex(passwordBytes);
         userVO.setPassword(md5Password);

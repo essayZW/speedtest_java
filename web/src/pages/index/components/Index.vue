@@ -1,5 +1,5 @@
 <template>
-  <Speedtest class="speedtest"></Speedtest>
+  <Speedtest class="speedtest" ref="Speedtest"></Speedtest>
 </template>
 <script>
 import Speedtest from "./Speedtest/Speedtest.vue";
@@ -7,6 +7,10 @@ export default {
   name: "Index",
   components: {
     Speedtest,
+  },
+  beforeRouteLeave : function (to, from, next) {
+    this.$refs.Speedtest.tryStop();
+    next();
   },
 };
 </script>

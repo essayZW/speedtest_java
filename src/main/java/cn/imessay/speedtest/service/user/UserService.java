@@ -73,21 +73,25 @@ public class UserService {
             logger.info("Login Fail||{}||{}", username, md5Password);
             return null;
         }
-        String sessionId = UUID.randomUUID().toString();
-        sessionId = sessionId.replace("-", "");
-        boolean status = redisService.set(GlobalConfig.USER_SESSION_KEY_PREFIX + sessionId,
-                userDO.getId(),
-                GlobalConfig.USER_SESSION_EXPIRE_SECONDS,
-                TimeUnit.SECONDS);
-        if (!status) {
-            return null;
-        }
         if (loginedUserInfo != null) {
             loginedUserInfo.setUsername(userDO.getUsername());
             loginedUserInfo.setId(userDO.getId());
             loginedUserInfo.setExtraAttribute(userDO.getExtraAttribute());
         }
-        return sessionId;
+        return setUserSession(userDO.getId());
+    }
+    public String setUserSession(Integer id) {
+        String sessionId = UUID.randomUUID().toString();
+        sessionId = sessionId.replace("-", "");
+        boolean status = redisService.set(GlobalConfig.USER_SESSION_KEY_PREFIX + sessionId,
+                id,
+                GlobalConfig.USER_SESSION_EXPIRE_SECONDS,
+                TimeUnit.SECONDS);
+        if (status) {
+            logger.info("Set User Session||{}||{}", id, sessionId);
+            return sessionId;
+        }
+        return null;
     }
     public boolean logout(String sessionId) {
         return redisService.del(GlobalConfig.USER_SESSION_KEY_PREFIX + sessionId);

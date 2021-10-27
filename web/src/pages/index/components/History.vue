@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col>
-        <el-table :data="historyData" border>
+        <el-table :data="historyData" v-loading="loading" border>
           <el-table-column prop="id" label="Id"></el-table-column>
           <el-table-column prop="time" label="时间"></el-table-column>
           <el-table-column prop="ip" label="ip"></el-table-column>
@@ -50,7 +50,8 @@ export default {
       historyData: [],
       historyDataCount: 20,
       pageSize: 10,
-      currentPage: 1
+      currentPage: 1,
+      loading: true
     };
   },
   methods: {
@@ -75,6 +76,8 @@ export default {
         .catch((error) => {
           console.error(error);
           this.$message.error("历史数据加载失败");
+        }).finally(() => {
+          this.loading = false;
         });
     },
     sizeChange: function(size) {

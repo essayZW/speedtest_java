@@ -32,29 +32,29 @@
         </el-form>
       </el-col>
     </el-row>
-    <el-row class="resNumberArea" type="flex" justify="space-around">
-      <el-col :span="9">
+    <el-row class="resNumberArea">
+      <el-col :span="12">
         <div class="testName">Ping</div>
         <div id="pingText" class="meterText" style="color: #aa6060">
           {{ pingText }} ms
         </div>
       </el-col>
-      <el-col :span="9">
+      <el-col :span="12">
         <div class="testName">Jitter</div>
         <div id="jitText" class="meterText" style="color: #aa6060">
           {{ jitterText }} ms
         </div>
       </el-col>
     </el-row>
-    <el-row class="resNumberArea" type="flex" justify="space-around">
-      <el-col class="testArea">
+    <el-row class="resNumberArea">
+      <el-col class="testArea" :xs="24" :sm="12">
         <div class="testName">Download</div>
         <div class="picArea">
           <canvas id="dlMeter" class="meter"></canvas>
           <div id="dlText" class="meterText">{{ dlText }} Mbps</div>
         </div>
       </el-col>
-      <el-col class="testArea">
+      <el-col class="testArea" :xs="24" :sm="12">
         <div class="testName">Upload</div>
         <div class="picArea">
           <canvas id="ulMeter" class="meter"></canvas>
@@ -118,6 +118,16 @@ export default {
           this.updateUI(true);
         };
         this.s.start();
+      }
+    },
+    tryStop: function () {
+      if (this.s.getState() == 3) {
+        //speedtest is running, abort
+        this.s.abort();
+        // data = null;
+        this.startButtonType = "primary";
+        this.startButtonStart = false;
+        this.initUI();
       }
     },
     initUI: function () {
@@ -199,6 +209,7 @@ export default {
       return 1 + 0.02 * Math.sin(Date.now() / 100);
     },
     drawMeter: (c, amount, bk, fg, progress, prog) => {
+      if (!c) return;
       var ctx = c.getContext("2d");
       var dp = window.devicePixelRatio || 1;
       var cw = c.clientWidth * dp,
@@ -258,7 +269,7 @@ export default {
     this.s.loadServerList(ApiHost + "/api/testpoint?cors=1", (servers) => {
       if (servers == null) {
         this.changeServerId = "测速节点加载失败";
-        alert("测速节点列表加载失败");
+        this.$message.error("测速节点列表加载失败");
         return;
       }
       // default no auto server select
@@ -270,7 +281,7 @@ export default {
       this.pointReady = true;
       this.startButtonType = "primary";
     });
-  },
+  }
 };
 </script>
 <style scoped>
@@ -288,11 +299,11 @@ export default {
   text-align: center;
 }
 .testArea {
-  height: 220px;
+  height: 12.5em;
 }
 .picArea {
   position: relative;
-  height: 200px;
+  height: 11.5em;
 }
 .picArea > * {
   position: absolute;

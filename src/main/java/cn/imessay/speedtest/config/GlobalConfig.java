@@ -54,9 +54,62 @@ public class GlobalConfig {
 
 
     /**
+     * 管理员密码
+     */
+    public static String ADMIN_PASSWORD = "password";
+
+    /**
+     * 管理员session在redis中的key
+     */
+    public final static String ADMIN_SESSION_KEY = "ADMIN_SESSION";
+
+    /**
+     * 管理员SESSION存储在cookie中的key值
+     */
+    public static String ADMIN_SESSION_NAME = "ASESSION_ID";
+
+    /**
+     * 是否允许用户自己注册账户
+     */
+    public static Boolean ALLOW_USER_REGISTER = true;
+
+    /**
      * 该web应用的名称
      */
     public static String WEBAPP_NAME = "Speedtest";
+
+
+    /**
+     * CAS验证方面
+     */
+
+    /**
+     * CAS验证中心地址
+     */
+    public static String CAS_CENTER_ADDRESS = "";
+
+    /**
+     * 是否启用CAS验证
+     */
+    public static Boolean ENABLE_CAS_LOGIN = false;
+
+    /**
+     * 用户username在cas验证返回的xml中的节点名称
+     */
+    public static String USERNAME_ELEMENT_NAME = "";
+
+    /**
+     * CAS登录接口地址
+     */
+    public static String CAS_LOGIN_PATH = "";
+    /**
+     * CAS登出接口地址
+     */
+    public static String CAS_LOGOUT_PATH = "";
+    /**
+     * CAS验证接口地址
+     */
+    public static String CAS_TICKET_VALIDATE_PATH = "";
 
     private static RedisService redisService;
 
@@ -64,7 +117,7 @@ public class GlobalConfig {
         GlobalConfig.redisService = redisService;
     }
 
-    private static Logger logger = LoggerFactory.getLogger(GlobalConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(GlobalConfig.class);
 
     /**
      * 从redis中初始化配置
