@@ -8,7 +8,7 @@
           mode="horizontal"
           :router="true"
         >
-          <el-menu-item>
+          <el-menu-item v-if="pc">
             <el-image
               class="logo"
               :src="require('../../assets/logo.png')"
@@ -60,6 +60,9 @@ export default {
         console.error(error);
         this.$message.error("退出登录失败");
       })
+    },
+    resize: function() {
+      this.pc = this.screenWidth > 600;
     }
   },
   mounted: function () {
@@ -97,19 +100,37 @@ export default {
         console.error(error);
         this.$message.error("用户信息加载失败");
       });
+
+      window.onresize = () => {
+        if (this.widthTimer) {
+          return;
+        }
+        this.screenWidth = document.body.clientWidth;
+        this.resize();
+        this.widthTimer = setTimeout(() => {
+          this.widthTimer = undefined;
+        }, 200);
+      }
   },
   data: () => {
+    let screenWidth = document.body.clientWidth;
     return {
       activeIndex: "/",
-      title: "xss",
+      title: "",
       appData: {},
       username: "请登录",
+      screenWidth: screenWidth,
+      widthTimer: undefined,
+      pc: true
     };
   },
   components: {},
 };
 </script>
 <style scoped>
+html, body {
+  font-size: 8px;
+}
 .logo {
   width: 30px;
   height: 30px;
