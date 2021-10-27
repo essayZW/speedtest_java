@@ -120,6 +120,16 @@ export default {
         this.s.start();
       }
     },
+    tryStop: function () {
+      if (this.s.getState() == 3) {
+        //speedtest is running, abort
+        this.s.abort();
+        // data = null;
+        this.startButtonType = "primary";
+        this.startButtonStart = false;
+        this.initUI();
+      }
+    },
     initUI: function () {
       var meterBk = /Trident.*rv:(\d+\.\d+)/i.test(navigator.userAgent)
         ? "#EAEAEA"
@@ -199,6 +209,7 @@ export default {
       return 1 + 0.02 * Math.sin(Date.now() / 100);
     },
     drawMeter: (c, amount, bk, fg, progress, prog) => {
+      if (!c) return;
       var ctx = c.getContext("2d");
       var dp = window.devicePixelRatio || 1;
       var cw = c.clientWidth * dp,
@@ -258,7 +269,7 @@ export default {
     this.s.loadServerList(ApiHost + "/api/testpoint?cors=1", (servers) => {
       if (servers == null) {
         this.changeServerId = "测速节点加载失败";
-        alert("测速节点列表加载失败");
+        this.$message.error("测速节点列表加载失败");
         return;
       }
       // default no auto server select
@@ -270,7 +281,7 @@ export default {
       this.pointReady = true;
       this.startButtonType = "primary";
     });
-  },
+  }
 };
 </script>
 <style scoped>
