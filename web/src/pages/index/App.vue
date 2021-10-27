@@ -45,6 +45,9 @@ export default {
   name: "App",
   methods: {
     logout: function() {
+      if (this.appData.ENABLE_CAS_LOGIN) {
+        window.location.href = this.appData.CAS_CENTER_ADDRESS + this.appData.CAS_LOGOUT_PATH;
+      }
       axios.delete(ApiHost + '/api/user/session').then((rep) => {
         let responseData = rep.data;
         if (responseData.status) {

@@ -76,6 +76,9 @@ public class GlobalConfigController {
         configNames.add("WEBAPP_NAME");
         configNames.add("NOT_LOGIN_REDIRECT_URL");
         configNames.add("ALLOW_USER_REGISTER");
+        configNames.add("CAS_CENTER_ADDRESS");
+        configNames.add("ENABLE_CAS_LOGIN");
+        configNames.add("CAS_LOGOUT_PATH");
         return configNames;
     }
 }
