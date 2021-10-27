@@ -32,29 +32,29 @@
         </el-form>
       </el-col>
     </el-row>
-    <el-row class="resNumberArea" type="flex" justify="space-around">
-      <el-col :span="9">
+    <el-row class="resNumberArea">
+      <el-col :span="12">
         <div class="testName">Ping</div>
         <div id="pingText" class="meterText" style="color: #aa6060">
           {{ pingText }} ms
         </div>
       </el-col>
-      <el-col :span="9">
+      <el-col :span="12">
         <div class="testName">Jitter</div>
         <div id="jitText" class="meterText" style="color: #aa6060">
           {{ jitterText }} ms
         </div>
       </el-col>
     </el-row>
-    <el-row class="resNumberArea" type="flex" justify="space-around">
-      <el-col class="testArea">
+    <el-row class="resNumberArea">
+      <el-col class="testArea" :xs="24" :sm="12">
         <div class="testName">Download</div>
         <div class="picArea">
           <canvas id="dlMeter" class="meter"></canvas>
           <div id="dlText" class="meterText">{{ dlText }} Mbps</div>
         </div>
       </el-col>
-      <el-col class="testArea">
+      <el-col class="testArea" :xs="24" :sm="12">
         <div class="testName">Upload</div>
         <div class="picArea">
           <canvas id="ulMeter" class="meter"></canvas>
@@ -299,11 +299,11 @@ export default {
   text-align: center;
 }
 .testArea {
-  height: 220px;
+  height: 12.5em;
 }
 .picArea {
   position: relative;
-  height: 200px;
+  height: 11.5em;
 }
 .picArea > * {
   position: absolute;
