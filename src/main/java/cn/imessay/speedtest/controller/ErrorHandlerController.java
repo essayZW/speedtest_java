@@ -44,7 +44,7 @@ public class ErrorHandlerController implements ErrorController {
     @ResponseBody
     public BaseResponseBody<Map<String, String>> exceptionPage(Exception e, HttpServletRequest request) throws Exception {
         e.printStackTrace();
-        logger.warn("Exception:{}||{}||{}", e.getMessage(), e.getClass().getName(), request.getRequestURI());
+        logger.warn("Exception:{}||{}||{}||{}", e.getMessage(), e.getClass().getName(), request.getRequestURI(), request.getMethod());
         if (e instanceof BindException) {
             BindException me = (BindException) e;
             List<ObjectError> errorList = me.getBindingResult().getAllErrors();
